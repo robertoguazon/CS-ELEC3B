@@ -1,0 +1,22 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chariot of Wisdom.CSharp", "Chariot of Wisdom.CSharp.csproj", "{1B6C2461-DC5D-9FF9-4410-996408C30ECE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chariot of Wisdom.CSharp.Editor.Plugins", "Chariot of Wisdom.CSharp.Editor.Plugins.csproj", "{0097706E-7C34-9A93-2BB7-0DE375183CC5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1B6C2461-DC5D-9FF9-4410-996408C30ECE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B6C2461-DC5D-9FF9-4410-996408C30ECE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B6C2461-DC5D-9FF9-4410-996408C30ECE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B6C2461-DC5D-9FF9-4410-996408C30ECE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0097706E-7C34-9A93-2BB7-0DE375183CC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0097706E-7C34-9A93-2BB7-0DE375183CC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0097706E-7C34-9A93-2BB7-0DE375183CC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0097706E-7C34-9A93-2BB7-0DE375183CC5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
