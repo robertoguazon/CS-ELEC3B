@@ -1,2 +1,2 @@
 # CS-ELEC3B
-Source codes for CS-ELEC3B class
+activity files from CS-ELEC2B class
