@@ -27,6 +27,14 @@ public class Grid : MonoBehaviour {
 
 	private Scaler scaler;
 
+	private bool piecesSpawned;
+
+	public bool ArePiecesSpawned {
+		get {
+			return piecesSpawned;
+		}
+	}
+
 	public bool IsReady {
 		get{
 			for (int row = 0; row < rows; row++) {
@@ -35,6 +43,7 @@ public class Grid : MonoBehaviour {
 					if (!node.IsReady) return false;
 				}
 			}
+
 			return true;
 		}
 	}
@@ -88,6 +97,8 @@ public class Grid : MonoBehaviour {
 				Node dn = go.AddComponent<Node>();
 				dn.row = row;
 				dn.col = col;
+				dn.rowChess = Converter.ToChessRow(row);
+				dn.colChess = Converter.ToChessCol(col);
 				grid[row,col] = dn;
 				go.transform.parent = transform;
 				go.transform.localScale = Vector3.zero;
@@ -118,44 +129,74 @@ public class Grid : MonoBehaviour {
 		//3 - cross
 		//4 - hexagon
 
+		PlayerType p1T = PlayerType.P1;
+		PlayerType p2T = PlayerType.P2;
+
 		//spawn circles
 		for (int i = 1; i <= 6; i++) {
-			SpawnPiece(new GridCoords(2,i),piecesPrefabs[2]);
-			SpawnPiece(new GridCoords(5,i),piecesPrefabs[2]);
+			SpawnPiece(new GridCoords(2,i),piecesPrefabs[2], p1T); // p1 circ
+			SpawnPiece(new GridCoords(5,i),piecesPrefabs[2], p2T); // p2 circ
 		}
 
 		//spawn boxes
-		SpawnPiece(new GridCoords(1,1),piecesPrefabs[0]);
-		SpawnPiece(new GridCoords(1,6),piecesPrefabs[0]);
-		SpawnPiece(new GridCoords(6,1),piecesPrefabs[0]);
-		SpawnPiece(new GridCoords(6,6),piecesPrefabs[0]);
+		SpawnPiece(new GridCoords(1,1),piecesPrefabs[0], p1T); //p1 box
+		SpawnPiece(new GridCoords(1,6),piecesPrefabs[0], p1T); //p1 box
+		SpawnPiece(new GridCoords(6,1),piecesPrefabs[0], p2T); //p2 box
+		SpawnPiece(new GridCoords(6,6),piecesPrefabs[0], p2T); //p2 box
 
 		//spawn triangles
-		SpawnPiece(new GridCoords(1,2),piecesPrefabs[1]);
-		SpawnPiece(new GridCoords(1,5),piecesPrefabs[1]);
-		SpawnPiece(new GridCoords(6,2),piecesPrefabs[1]);
-		SpawnPiece(new GridCoords(6,5),piecesPrefabs[1]);
+		SpawnPiece(new GridCoords(1,2),piecesPrefabs[1], 180, p1T); //p1 tri
+		SpawnPiece(new GridCoords(1,5),piecesPrefabs[1], 180, p1T); //p1 tri
+		SpawnPiece(new GridCoords(6,2),piecesPrefabs[1], p2T); //p2 tri
+		SpawnPiece(new GridCoords(6,5),piecesPrefabs[1], p2T); //p2 tri
 
 		//spawn crosses
-		SpawnPiece(new GridCoords(1,4),piecesPrefabs[3]);
-		SpawnPiece(new GridCoords(6,4),piecesPrefabs[3]);
+		SpawnPiece(new GridCoords(1,4),piecesPrefabs[3], p1T); //p1 cross
+		SpawnPiece(new GridCoords(6,4),piecesPrefabs[3], p2T); //p2 cross
 
 		//spawn hexagons
-		SpawnPiece(new GridCoords(1,3),piecesPrefabs[4]);
-		SpawnPiece(new GridCoords(6,3),piecesPrefabs[4]);
+		SpawnPiece(new GridCoords(1,3),piecesPrefabs[4], p1T); //p1 hex
+		SpawnPiece(new GridCoords(6,3),piecesPrefabs[4], p2T); //p2 hex
 
+		piecesSpawned = true;
 	}
 
-	public void SpawnPiece(GridCoords coords, GameObject piece) {
+	public void SpawnPiece(GridCoords coords, GameObject piece, float yRotation, PlayerType playerType) {
 		Node pieceNode = GetNodeAt(coords.row, coords.col);
 		pieceNode.walkable = false;
 		pieceNode.gameObject.layer = LayerMask.NameToLayer("Default");
 
-		GameObject pieceObject = Instantiate(piece, pieceNode.transform.position + Vector3.up * 1.2f, piece.transform.rotation) as GameObject;
+		Vector3 pRotation = piece.transform.rotation.eulerAngles;
+		Quaternion newPRotation = Quaternion.Euler(pRotation.x, yRotation, pRotation.z);
+
+		GameObject pieceObject = Instantiate(piece, pieceNode.transform.position + Vector3.up * 1.2f, newPRotation) as GameObject;
 		pieceObject.transform.localScale = Vector3.zero;
-		ScalableObject so = pieceObject.AddComponent<ScalableObject>();
+		Piece pieceScript = pieceObject.GetComponent(typeof(Piece)) as Piece;
+
+		//assign mat and player type
+		Material mat = null;
+		GCPlayer player = null;
+		switch (playerType) {
+			case PlayerType.P1:
+				mat = GameManager.Instance.PieceP1;
+				player = GameManager.Instance.P1;
+				break;
+			case PlayerType.P2:
+				mat = GameManager.Instance.PieceP2;
+				player = GameManager.Instance.P2;
+				break;
+		}
+		pieceObject.GetComponent<Renderer>().material = mat;
+		player.AddPieces(pieceScript);
 		
-		so.ScaleIn(Random.Range(0f,1f),Random.Range(1f,2f),piece.transform.localScale.x);
+		if(pieceScript) //if exists type then scale
+			pieceScript.ScaleIn(Random.Range(0f,1f),Random.Range(1f,2f),piece.transform.localScale.x);
+
+		pieceScript.UpdateNode(pieceNode);
+	}
+
+	public void SpawnPiece(GridCoords coords, GameObject piece, PlayerType playerType) {
+		SpawnPiece(coords, piece, 0, playerType);
 	}
 
 	public List<Node> GetNeighbours(Node node) {

@@ -84,13 +84,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Base Class\IClickable.cs" />
+    <Compile Include="Assets\Scripts\Base Class\IClicker.cs" />
+    <Compile Include="Assets\Scripts\Base Class\IHeapItem.cs" />
+    <Compile Include="Assets\Scripts\Base Class\ScalableObject.cs" />
+    <Compile Include="Assets\Scripts\Base Class\Singleton.cs" />
+    <Compile Include="Assets\Scripts\GCPlayer.cs" />
     <Compile Include="Assets\Scripts\Grid\Grid.cs" />
     <Compile Include="Assets\Scripts\Grid\GridCoords.cs" />
     <Compile Include="Assets\Scripts\Grid\Node.cs" />
-    <Compile Include="Assets\Scripts\Interfaces\IClickable.cs" />
-    <Compile Include="Assets\Scripts\Interfaces\IHeapItem.cs" />
-    <Compile Include="Assets\Scripts\ScalableObject.cs" />
+    <Compile Include="Assets\Scripts\Managers\GameManager.cs" />
+    <Compile Include="Assets\Scripts\Managers\InputManager.cs" />
+    <Compile Include="Assets\Scripts\Pieces\IPieceMovement.cs" />
+    <Compile Include="Assets\Scripts\Pieces\Piece.cs" />
+    <Compile Include="Assets\Scripts\Utils\Converter.cs" />
+    <Compile Include="Assets\Scripts\Utils\Finder.cs" />
     <Compile Include="Assets\Scripts\Utils\Scaler.cs" />
+    <Compile Include="Assets\Scripts\Utils\SimpleFPSCounter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

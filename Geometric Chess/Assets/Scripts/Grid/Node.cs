@@ -5,13 +5,39 @@ public class Node : ScalableObject, IHeapItem<Node>, IClickable {
 	public int row;
 	public int col;
 
+	public char rowChess;
+	public char colChess;
+
 	public bool walkable = true;
 	
 	public int gCost;
 	public int hCost;
 	
-	public Node parent;
 	private int heapIndex;
+
+	private Piece piece;
+
+	public string ChessCoords {
+		get {return "" + colChess + rowChess;}
+	}
+
+	public Piece Piece {
+		get {return piece;}
+		set {
+			if (value.Node == this)
+				piece = value;
+		}
+	}
+
+	public bool EmptySpace {
+		get {
+			return piece == null;
+		}
+	}
+
+	public void Clear() {
+		piece = null;
+	}
 
 	public int fCost {
 		get {
@@ -28,7 +54,7 @@ public class Node : ScalableObject, IHeapItem<Node>, IClickable {
 		}
 	}
 
-	public bool Inform(object arg) {
+	public bool Inform<T>(T arg) {
 		//TODO
 		return true;
 	}
