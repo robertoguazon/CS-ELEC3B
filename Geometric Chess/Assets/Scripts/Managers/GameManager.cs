@@ -4,7 +4,6 @@ using UnityEngine;
 using System.Diagnostics;
 
 public class GameManager : Singleton<GameManager> {
-
 	[SerializeField]
 	private Material pieceP1;
 	[SerializeField]
@@ -15,12 +14,36 @@ public class GameManager : Singleton<GameManager> {
 	private Camera mainCamera;
 	[SerializeField]
 	private LayerMask clickableMask;
+	[SerializeField]
+	private Color pieceHighlightColor;
+	[SerializeField]
+	private Material moveHighlightMaterial;
+	[SerializeField]
+	private Material eatHighlightMaterial;
 
 	private GCPlayer p1;
 	private GCPlayer p2;
 	private GCPlayer currentPlayer;
 
+	private GameState gameState;
+
 	private bool ready;
+
+	public Material EatHighlightMaterial {
+		get {return eatHighlightMaterial;}
+	}
+
+	public Color PieceHighlightColor {
+		get {return pieceHighlightColor;}
+	}
+
+	public Material MoveHighlightMaterial {
+		get {return moveHighlightMaterial;}
+	}
+
+	public GameState GameState {
+		get {return gameState;}
+	}
 
 	public GCPlayer CurrentPlayer {
 		get {return currentPlayer;}
@@ -59,8 +82,10 @@ public class GameManager : Singleton<GameManager> {
 	}
 
 	void Awake() {
+		_destroyOnLoad = destroyOnLoad;
 		p1 = new GCPlayer(PlayerType.P1);
 		p2 = new GCPlayer(PlayerType.P2);
+		gameState = new GameState();
 		SwitchPlayer();
 	}
 
@@ -90,7 +115,7 @@ public class GameManager : Singleton<GameManager> {
 	// Update is called once per frame
 	void Update () {
 		if (!ready) return;
-
+		if (gameState.IsGameOver) return;
 		
 	}
 
@@ -100,7 +125,7 @@ public class GameManager : Singleton<GameManager> {
 		}
 
 		if (currentPlayer == p2 || currentPlayer == null) {
-			currentPlayer = p1;
+			currentPlayer = p2;
 		} else if (currentPlayer == p1) {
 			currentPlayer = p2;
 		}

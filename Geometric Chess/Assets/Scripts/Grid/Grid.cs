@@ -154,6 +154,12 @@ public class Grid : MonoBehaviour {
 		SpawnPiece(new GridCoords(1,4),piecesPrefabs[3], p1T); //p1 cross
 		SpawnPiece(new GridCoords(6,4),piecesPrefabs[3], p2T); //p2 cross
 
+		//TODELETE
+		SpawnPiece(new GridCoords(7,4),piecesPrefabs[3], p1T); //p1 cross
+		SpawnPiece(new GridCoords(7,1),piecesPrefabs[3], p1T); //p1 cross
+		SpawnPiece(new GridCoords(0,4),piecesPrefabs[3], p2T); //p2 cross SAMPLE
+		SpawnPiece(new GridCoords(0,1),piecesPrefabs[3], p2T); //p2 cross SAMPLE
+
 		//spawn hexagons
 		SpawnPiece(new GridCoords(1,3),piecesPrefabs[4], p1T); //p1 hex
 		SpawnPiece(new GridCoords(6,3),piecesPrefabs[4], p2T); //p2 hex

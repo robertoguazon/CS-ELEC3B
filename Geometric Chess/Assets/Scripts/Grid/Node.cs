@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Node : ScalableObject, IHeapItem<Node>, IClickable {
+public class Node : Scalable, IHeapItem<Node>, IClickable {
 	public int row;
 	public int col;
 
@@ -16,6 +16,10 @@ public class Node : ScalableObject, IHeapItem<Node>, IClickable {
 	private int heapIndex;
 
 	private Piece piece;
+
+	protected override void Start() {
+		base.Start();
+	}
 
 	public string ChessCoords {
 		get {return "" + colChess + rowChess;}

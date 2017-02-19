@@ -2,15 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IPieceMovement : MonoBehaviour {
+public delegate void ComputeBound(Piece piece);
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+public interface IPieceMovement {
+
+	event ComputeBound BoundComputations;
+	void ComputeBound(Piece piece);
+	void Compute(Piece piece);
 }

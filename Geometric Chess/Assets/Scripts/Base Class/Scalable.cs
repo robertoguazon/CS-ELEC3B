@@ -2,13 +2,56 @@
 using System.Collections;
 using System;
 
-public class ScalableObject : MonoBehaviour {
+public class Scalable : MonoBehaviour {
 
-	private bool ready = false;
+	protected bool ready = false;
+
+	protected Color origColor;
+	protected Color origEmission;
+	protected Material origMaterial;
+	protected new Renderer renderer;
+
+	protected virtual void Start() {
+		renderer = GetComponent<Renderer>();
+		origMaterial = GetComponent<Renderer>().material;
+		origColor = origMaterial.GetColor("_Color");
+		origEmission = origMaterial.GetColor("_EmissionColor");
+	}
+
 	public bool IsReady {
 		get {
 			return ready;
 		}
+	}
+
+	public void SetMaterialOriginal() {
+		SetMaterial(origMaterial);
+	}
+
+	public void SetEmissionOriginal() {
+		SetEmission(origEmission);
+	}
+
+	public void SetColorOriginal() {
+		SetColor(origColor);
+	}
+
+	public void SetMaterial() {
+
+	}
+
+	public void SetMaterial(Material material) {
+		renderer.material = material;
+	}
+
+	public void SetEmission(Color color) {
+		renderer.material.SetColor("_EmissionColor", color);
+		//DynamicGI.UpdateMaterials(r);
+        //DynamicGI.UpdateEnvironment();
+	}
+
+	public void SetColor(Color color) {
+		renderer.material.SetColor("_Color", color);
 	}
 
 	public void ScaleIn(float startAfter, float speed, float endScale) {

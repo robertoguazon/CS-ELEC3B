@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Singleton<T> : MonoBehaviour where T : Component {
 
-	protected static bool destroyOnLoad = false;
+	public bool destroyOnLoad;
+	protected static bool _destroyOnLoad;
 
 	private static T instance;
 
@@ -17,9 +18,8 @@ public class Singleton<T> : MonoBehaviour where T : Component {
 				} else if (instance != foundObject) {
 					Destroy(foundObject);
 				}
-				
-				if (!destroyOnLoad) DontDestroyOnLoad(foundObject);
 
+				if (!_destroyOnLoad) DontDestroyOnLoad(foundObject);
 				return instance;
 			}
 	}
