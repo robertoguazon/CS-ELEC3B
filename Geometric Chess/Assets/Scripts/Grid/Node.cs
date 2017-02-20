@@ -8,7 +8,7 @@ public class Node : Scalable, IHeapItem<Node>, IClickable {
 	public char rowChess;
 	public char colChess;
 
-	public bool walkable = true;
+	//public bool walkable = true;
 	
 	public int gCost;
 	public int hCost;
@@ -31,6 +31,14 @@ public class Node : Scalable, IHeapItem<Node>, IClickable {
 			if (value.Node == this)
 				piece = value;
 		}
+	}
+
+	public void MoveHighlight() {
+		SetMaterial(GameManager.Instance.MoveHighlightMaterial);
+	}
+
+	public void EatHighlight() {
+		SetMaterial(GameManager.Instance.EatHighlightMaterial);
 	}
 
 	public bool EmptySpace {

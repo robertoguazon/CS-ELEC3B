@@ -18,6 +18,8 @@ public class InputManager : Singleton<InputManager> {
 	public static event InputEventHandler InputEvent;
 
 	private bool clicked;
+	private Node currentNode;
+	private GCPlayer currentPlayer;
 
 	void Awake() {
 		_destroyOnLoad = destroyOnLoad;
@@ -27,9 +29,16 @@ public class InputManager : Singleton<InputManager> {
 		if (InputEvent == null) return;
 
 		if (!GameManager.Instance.IsReady) return;
+
+		HighlightTile();
+		
+		Debug.Log(GameManager.Instance.GameState.State);
+
 		if (Input.GetMouseButtonUp(0)) {
 			if (GameManager.Instance.GameState.IsWaiting) {
 				InputEvent(InputActionType.GRAB_PIECE);
+			} else if (GameManager.Instance.GameState.IsHolding) {
+				InputEvent(InputActionType.PLACE_PIECE);
 			}
 		}
 
@@ -40,5 +49,23 @@ public class InputManager : Singleton<InputManager> {
 		}
 	}
 
+	void HighlightTile() {
+		if (GameManager.Instance.GameState.IsWaiting) {
+			if (currentNode != null) {
+				currentNode.SetMaterialOriginal();
+			}
+			currentNode = Finder.RayHitFromScreen<Node>(Input.mousePosition);
+			if (currentNode != null) {
+				Piece piece = currentNode.Piece;
+				if (piece != null) {
+					if (GameManager.Instance.CurrentPlayer.Has(piece)) {
+						currentNode.MoveHighlight();
+					} else {
+						currentNode.EatHighlight();
+					}
+				}
+			}
+		}
+	}
 
 }

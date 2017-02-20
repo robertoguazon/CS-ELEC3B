@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class CrossMovement : Movement, IPieceMovement {
 
 	public CrossMovement() {
@@ -20,8 +21,10 @@ public class CrossMovement : Movement, IPieceMovement {
 
 				int newRow = origRow + row;
 				int newCol = origCol + col;
-				ComputePiece(player, piece, GameManager.Instance.Grid.GetNodeAt(newRow, newCol));
+				ComputeMoveOrEatPiece(player, piece, GameManager.Instance.Grid.GetNodeAt(newRow, newCol));
 			}
 		}
 	}
+
+
 }

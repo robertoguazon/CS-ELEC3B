@@ -6,12 +6,16 @@ public class Piece : Movable, IClickable {
 
 	[SerializeField]
 	private Node node;
+	[SerializeField]
+	private MovementType movementType;
+	
 
 	private IPieceMovement pieceMovement;
+	private bool dropping;
 
 	protected override void Start() {
 		base.Start();
-		pieceMovement = new CrossMovement(); //TODO delete
+		pieceMovement = Creator.CreatePieceMovement(movementType); //TODO delete
 	}
 
 	public void Compute() {
@@ -31,28 +35,36 @@ public class Piece : Movable, IClickable {
 	}
 
 	public void UpdateNode(Node n) {
+		if (node != null) {
+			node.Clear();
+		}
 		node = n;
 		n.Piece = this;
 	}
 
 	public bool Inform<T>(T arg) {
-		print(IsReady);
-		if (!IsReady) return false; //EXPERIMENT
-
-		Vector3 prevPos = transform.position;
-		ZeroGravity();
-		MoveBy(new Vector3(0,1,0));
-		SetEmission(GameManager.Instance.PieceHighlightColor);
+		//TODO
 		return true;
+	}
+
+	public void Highlight() {
+		SetEmission(GameManager.Instance.PieceHighlightColor);
 	}
 
 	public void ZeroGravity() {
 		gameObject.GetComponent<Rigidbody>().useGravity = false;
 	}
 
+	public void Pickup() {
+		Highlight();
+		ZeroGravity();
+		MoveBy(new Vector3(0,1,0), null);
+	}
+
 	public void Drop() {
+		dropping = true;
 		SetEmissionOriginal();
-		StopMoveIEnumerator();
+		StopMoveCoroutine();
 		gameObject.GetComponent<Rigidbody>().useGravity = true;
 		GCPlayer currPlayer = GameManager.Instance.CurrentPlayer;
 		currPlayer.ClearPossibleEats();
@@ -62,8 +74,9 @@ public class Piece : Movable, IClickable {
 
 	//EXPERIMENT
 	 void OnCollisionEnter(Collision collision) {
-        if (collision.collider.gameObject) {
+        if (dropping && collision.collider.gameObject) {
 			ready = true;
+			dropping = false;
 		}
     }
 

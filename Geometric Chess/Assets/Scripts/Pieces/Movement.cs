@@ -2,7 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Movement{
+public enum MovementType {
+	NONE,
+	CROSS,
+	CIRCLE
+}
+
+public abstract class Movement : ScriptableObject {
 
 	
 	public event ComputeBound BoundComputations;
@@ -24,16 +30,32 @@ public abstract class Movement{
 		return false;
 	}
 
-	public void ComputePiece(GCPlayer player, Piece playerPiece, Node toCheckNode) {
+	public void ComputeMovePiece(GCPlayer player, Piece playerPiece, Node toCheckNode) {
+		if (toCheckNode == null) return;
+		if (toCheckNode.EmptySpace) {
+			player.AddPossibleMoves(toCheckNode);
+			toCheckNode.MoveHighlight();
+		}
+	}
+
+	public void ComputeEatPiece(GCPlayer player, Piece playerPiece, Node toCheckNode) {
+		if (toCheckNode == null) return;
+		if (!toCheckNode.EmptySpace && IsEnemy(playerPiece, toCheckNode.Piece)) {
+			player.AddPossibleEats(toCheckNode);
+			toCheckNode.EatHighlight();
+		}
+	}
+
+	public void ComputeMoveOrEatPiece(GCPlayer player, Piece playerPiece, Node toCheckNode) {
 		if (toCheckNode == null) return;
 		if (toCheckNode.EmptySpace) {
 			player.AddPossibleMoves(toCheckNode);
 
-			toCheckNode.SetMaterial(GameManager.Instance.MoveHighlightMaterial);
+			toCheckNode.MoveHighlight();
 		} else if (IsEnemy(playerPiece, toCheckNode.Piece)) {
 			player.AddPossibleEats(toCheckNode);
 			
-			toCheckNode.SetMaterial(GameManager.Instance.EatHighlightMaterial);
+			toCheckNode.EatHighlight();
 		}
 	}
 

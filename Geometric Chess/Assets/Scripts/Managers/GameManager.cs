@@ -29,6 +29,14 @@ public class GameManager : Singleton<GameManager> {
 
 	private bool ready;
 
+	public GCPlayer PlayerOponent {
+		get {
+			if (currentPlayer == null) return null;
+			if (currentPlayer == p1) return p2;
+			else return p1;
+		}
+	}
+
 	public Material EatHighlightMaterial {
 		get {return eatHighlightMaterial;}
 	}
@@ -125,7 +133,7 @@ public class GameManager : Singleton<GameManager> {
 		}
 
 		if (currentPlayer == p2 || currentPlayer == null) {
-			currentPlayer = p2;
+			currentPlayer = p1;
 		} else if (currentPlayer == p1) {
 			currentPlayer = p2;
 		}

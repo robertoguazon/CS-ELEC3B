@@ -23,4 +23,14 @@ public class Finder {
 		return (T) Convert.ChangeType(o,typeof(T));
 	} 
 
+	public static IClickable IClickableRayHitFromScreen(Vector3 hitPosition) { 
+		Ray ray = Converter.ScreenPointToRay(hitPosition);
+		RaycastHit hit;
+		if (Physics.Raycast(ray, out hit, float.PositiveInfinity, GameManager.Instance.CLickableMask)) {
+			return hit.transform.gameObject.GetComponent(typeof(IClickable)) as IClickable;
+		}
+
+		return null;
+	}
+
 }

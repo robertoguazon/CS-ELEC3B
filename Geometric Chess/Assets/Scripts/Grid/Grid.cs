@@ -169,8 +169,6 @@ public class Grid : MonoBehaviour {
 
 	public void SpawnPiece(GridCoords coords, GameObject piece, float yRotation, PlayerType playerType) {
 		Node pieceNode = GetNodeAt(coords.row, coords.col);
-		pieceNode.walkable = false;
-		pieceNode.gameObject.layer = LayerMask.NameToLayer("Default");
 
 		Vector3 pRotation = piece.transform.rotation.eulerAngles;
 		Quaternion newPRotation = Quaternion.Euler(pRotation.x, yRotation, pRotation.z);

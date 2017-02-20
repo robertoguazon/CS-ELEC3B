@@ -54,20 +54,58 @@ public class GCPlayer : IClicker {
 	protected void OnInputEvent(InputActionType action) {
 		switch (action) {
 			case InputActionType.GRAB_PIECE:
-				Piece piece = Finder.RayHitFromScreen<Piece>(Input.mousePosition);
-				if (piece && Has(piece) && Click(piece)) {
-					this.piece = piece;
-					Debug.Log(piece.ChessCoords);
-					GameManager.Instance.GameState.Grabbed();
+				Node gNode = Finder.RayHitFromScreen<Node>(Input.mousePosition);
+				if (gNode == null) break;
+				piece = gNode.Piece;
+				if (piece == null) break;
+				if (!piece.IsReady) break;
+				if (Click(gNode) && piece && Has(piece) && Click(piece)) {
+					piece.Pickup();
 					piece.Compute();
-				}
+					GameManager.Instance.GameState.Grab();
+				} 
+
+				//check clickable for tile and piece then pass Player
+				//check if player has piece - PIECE 
+				//check if player has piece if not empty - NODE 
 				break;
 			case InputActionType.CANCEL_PIECE:
-					this.piece.Drop();
-					this.piece = null;
-					GameManager.Instance.GameState.Released();
+					if (piece != null) {
+						//if (!piece.IsReady) break;
+						piece.Drop();
+						piece = null;
+						GameManager.Instance.GameState.Cancel();
+					}
+				break;
+			case InputActionType.PLACE_PIECE:
+				Node tNode = Finder.RayHitFromScreen<Node>(Input.mousePosition);
+				if (tNode == null) break;
+				Piece tPiece = tNode.Piece;
+				if (tPiece == null) {
+					if (IsPossibleMove(tNode)) {
+						piece.MoveToXZ(tNode, AfterPlacing);
+						piece.UpdateNode(tNode);
+						GameManager.Instance.GameState.Place();
+					}
+				} else {
+					if (IsPossibleEat(tNode)) {
+						GCPlayer oppPlayer = GameManager.Instance.PlayerOponent;
+						oppPlayer.RemovePiece(tPiece);
+						AddEatenPieces(tPiece);
+						tPiece.ScaleOut(0.2f, 1.5f);
+						piece.MoveToXZ(tNode, AfterPlacing);
+						piece.UpdateNode(tNode);
+						GameManager.Instance.GameState.Place();
+					}
+				}
 				break;
 		}
+	}
+
+	private void AfterPlacing() {
+		piece.Drop();
+		GameManager.Instance.GameState.Release();
+		piece = null;
 	}
 
 	public bool Has(Piece piece) {
@@ -99,7 +137,7 @@ public class GCPlayer : IClicker {
 		}
 	}
 
-	public bool EatPiece(Piece piece) {
+	public bool RemovePiece(Piece piece) {
 		return pieces.Remove(piece);
 	}
 

@@ -5,6 +5,7 @@ using UnityEngine;
 public enum GameStateType {
 	WAITING,
 	HOLDING,
+	PLACING,
 	GAME_OVER
 }
 
@@ -27,20 +28,29 @@ public class GameState {
 		get {return state == GameStateType.WAITING;}
 	}
 
+	public bool IsPlacing {
+		get {return state == GameStateType.PLACING;}
+	}
+
 	public bool IsHolding {
 		get {return state == GameStateType.HOLDING;}
 	}
 
-	public void Grabbed() {
+	public void Grab() {
 		state = GameStateType.HOLDING;
 	}
 
-	public void Placed() {
-		state = GameStateType.WAITING;
+	public void Place() {
+		state = GameStateType.PLACING;
 	}
 
-	public void Released() {
-		Placed();
+	public void Release() {
+		state = GameStateType.WAITING;
+		GameManager.Instance.SwitchPlayer();
+	}
+
+	public void Cancel() {
+		state = GameStateType.WAITING;
 	}
 
 	public bool IsGameOver {
