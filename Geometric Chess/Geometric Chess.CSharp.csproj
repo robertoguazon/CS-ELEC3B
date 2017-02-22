@@ -99,10 +99,13 @@
     <Compile Include="Assets\Scripts\Managers\InputManager.cs" />
     <Compile Include="Assets\Scripts\Pieces\CircleMovement.cs" />
     <Compile Include="Assets\Scripts\Pieces\CrossMovement.cs" />
+    <Compile Include="Assets\Scripts\Pieces\HexagonMovement.cs" />
     <Compile Include="Assets\Scripts\Pieces\IPieceMovement.cs" />
     <Compile Include="Assets\Scripts\Pieces\Movement.cs" />
     <Compile Include="Assets\Scripts\Pieces\NoMovement.cs" />
     <Compile Include="Assets\Scripts\Pieces\Piece.cs" />
+    <Compile Include="Assets\Scripts\Pieces\SquareMovement.cs" />
+    <Compile Include="Assets\Scripts\Pieces\TriangleMovement.cs" />
     <Compile Include="Assets\Scripts\Utils\Converter.cs" />
     <Compile Include="Assets\Scripts\Utils\Creator.cs" />
     <Compile Include="Assets\Scripts\Utils\Finder.cs" />

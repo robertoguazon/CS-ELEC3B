@@ -5,7 +5,10 @@ using UnityEngine;
 public enum MovementType {
 	NONE,
 	CROSS,
-	CIRCLE
+	CIRCLE,
+	SQUARE,
+	TRIANGLE,
+	HEXAGON,
 }
 
 public abstract class Movement : ScriptableObject {
@@ -30,36 +33,63 @@ public abstract class Movement : ScriptableObject {
 		return false;
 	}
 
-	public void ComputeMovePiece(GCPlayer player, Piece playerPiece, Node toCheckNode) {
-		if (toCheckNode == null) return;
+	public bool ComputeMovePiece(GCPlayer player, Piece playerPiece, Node toCheckNode) {
+		if (toCheckNode == null) return false;
 		if (toCheckNode.EmptySpace) {
 			player.AddPossibleMoves(toCheckNode);
 			toCheckNode.MoveHighlight();
+			return true;
 		}
+
+		return false;
 	}
 
-	public void ComputeEatPiece(GCPlayer player, Piece playerPiece, Node toCheckNode) {
-		if (toCheckNode == null) return;
+	public bool ComputeEatPiece(GCPlayer player, Piece playerPiece, Node toCheckNode) {
+		if (toCheckNode == null) return false;
 		if (!toCheckNode.EmptySpace && IsEnemy(playerPiece, toCheckNode.Piece)) {
 			player.AddPossibleEats(toCheckNode);
 			toCheckNode.EatHighlight();
+			return true;
 		}
+
+		return false;
 	}
 
-	public void ComputeMoveOrEatPiece(GCPlayer player, Piece playerPiece, Node toCheckNode) {
-		if (toCheckNode == null) return;
+	public bool ComputeMoveOrEatPiece(GCPlayer player, Piece playerPiece, Node toCheckNode) {
+		if (toCheckNode == null) return false;
 		if (toCheckNode.EmptySpace) {
 			player.AddPossibleMoves(toCheckNode);
 
 			toCheckNode.MoveHighlight();
+			return true;
 		} else if (IsEnemy(playerPiece, toCheckNode.Piece)) {
 			player.AddPossibleEats(toCheckNode);
 			
 			toCheckNode.EatHighlight();
+			return true;
 		}
+
+		return false;
 	}
 
 	public virtual void Compute(Piece piece) {
 		BoundComputations(piece);
+	}
+
+	//returns true if met an ally or enemy, this is for square and triangle, to cause a block
+	public bool ComputeMoveOrEatPieceEnemyAlly(GCPlayer player, Piece playerPiece, Node toCheckNode) {
+		if (toCheckNode == null) return false;
+		if (toCheckNode.EmptySpace) {
+			player.AddPossibleMoves(toCheckNode);
+			toCheckNode.MoveHighlight();
+		} else if (IsEnemy(playerPiece, toCheckNode.Piece)) {
+			player.AddPossibleEats(toCheckNode);
+			toCheckNode.EatHighlight();
+			return true;
+		} else {
+			return true;
+		}
+
+		return false;
 	}
 }

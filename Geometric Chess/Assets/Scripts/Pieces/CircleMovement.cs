@@ -20,15 +20,17 @@ public class CircleMovement : Movement, IPieceMovement {
 		Node leftEatNode = null;
 		Node rightEatNode = null;
 		Grid grid = GameManager.Instance.Grid;
+
+		int toAdd = 0;
 		if (p1.Has(piece)) {
-			frontNode = grid.GetNodeAt(origRow + 1, origCol);
-			leftEatNode = grid.GetNodeAt(origRow + 1, origCol - 1);
-			rightEatNode = grid.GetNodeAt(origRow + 1, origCol + 1);
+			toAdd = 1;
 		} else {
-			frontNode = GameManager.Instance.Grid.GetNodeAt(origRow - 1, origCol);
-			leftEatNode = grid.GetNodeAt(origRow - 1, origCol - 1);
-			rightEatNode = grid.GetNodeAt(origRow - 1, origCol + 1);
+			toAdd = -1;
 		}
+
+		frontNode = grid.GetNodeAt(origRow + toAdd, origCol);
+		leftEatNode = grid.GetNodeAt(origRow + toAdd, origCol - 1);
+		rightEatNode = grid.GetNodeAt(origRow + toAdd, origCol + 1);
 
 		ComputeEatPiece(player, piece,leftEatNode);
 		ComputeEatPiece(player, piece, rightEatNode);

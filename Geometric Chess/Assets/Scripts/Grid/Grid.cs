@@ -29,6 +29,14 @@ public class Grid : MonoBehaviour {
 
 	private bool piecesSpawned;
 
+	public int Rows {
+		get {return rows;}
+	}
+
+	public int Cols {
+		get {return cols;}
+	}
+
 	public bool ArePiecesSpawned {
 		get {
 			return piecesSpawned;

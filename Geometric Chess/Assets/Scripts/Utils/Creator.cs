@@ -10,6 +10,12 @@ public class Creator {
 				return new CrossMovement();
 			case MovementType.CIRCLE:
 				return new CircleMovement();
+			case MovementType.SQUARE:
+				return new SquareMovement();
+			case MovementType.TRIANGLE:
+				return new TriangleMovement();
+			case MovementType.HEXAGON:
+				return new HexagonMovement();
 			case MovementType.NONE:
 			default:
 				return new NoMovement();
