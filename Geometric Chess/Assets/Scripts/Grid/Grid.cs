@@ -25,8 +25,6 @@ public class Grid : MonoBehaviour {
 	private Vector3 tileSize;
 	private Vector3 size;
 
-	private Scaler scaler;
-
 	private bool piecesSpawned;
 
 	public int Rows {
@@ -84,7 +82,6 @@ public class Grid : MonoBehaviour {
 		grid = new Node[rows,cols];
 		tileSize =  tilePrefab.GetComponent<Renderer>().bounds.size;
 		size = new Vector3(tileSize.x * cols, tileSize.y, tileSize.z * rows);
-		scaler = new Scaler();
 		CreateGrid();
 	}
 

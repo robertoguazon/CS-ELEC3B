@@ -4,11 +4,12 @@ using UnityEngine;
 
 public enum MovementType {
 	NONE,
-	CROSS,
-	CIRCLE,
-	SQUARE,
-	TRIANGLE,
-	HEXAGON,
+	KING,
+	PAWN,
+	ROOK,
+	BISHOP,
+	QUEEN,
+	HORSE,
 }
 
 public abstract class Movement : ScriptableObject {

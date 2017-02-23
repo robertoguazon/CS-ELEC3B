@@ -21,6 +21,7 @@ public class InputManager : Singleton<InputManager> {
 	private Node currentNode;
 	private GCPlayer currentPlayer;
 
+
 	void Awake() {
 		_destroyOnLoad = destroyOnLoad;
 	}
