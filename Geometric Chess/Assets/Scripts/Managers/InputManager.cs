@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum InputActionType {
-	ZOOM_CAMERA = 0,
-	ROTATE_Y_AXIS = 1,
-	ROTATE_X_AXIS = 2,
-	GRAB_PIECE = 3,
-	PLACE_PIECE = 4,
-	EAT_PIECE = 5,
-	CANCEL_PIECE = 6,
+	GRAB_PIECE = 0,
+	PLACE_PIECE = 1,
+	CANCEL_PIECE = 2,
+	ZOOM_IN = 3,
+	ZOOM_OUT = 4,
+	ROTATE_UP = 5,
+	ROTATE_DOWN = 6,
+	ROTATE_LEFT = 7,
+	ROTATE_RIGHT = 8,
 }
 
 public class InputManager : Singleton<InputManager> {
@@ -21,7 +23,6 @@ public class InputManager : Singleton<InputManager> {
 	private Node currentNode;
 	private GCPlayer currentPlayer;
 
-
 	void Awake() {
 		_destroyOnLoad = destroyOnLoad;
 	}
@@ -32,8 +33,6 @@ public class InputManager : Singleton<InputManager> {
 		if (!GameManager.Instance.IsReady) return;
 
 		HighlightTile();
-		
-		Debug.Log(GameManager.Instance.GameState.State);
 
 		if (Input.GetMouseButtonUp(0)) {
 			if (GameManager.Instance.GameState.IsWaiting) {
@@ -46,6 +45,30 @@ public class InputManager : Singleton<InputManager> {
 		if (Input.GetMouseButtonUp(1)) {
 			if (GameManager.Instance.GameState.IsHolding) {
 				InputEvent(InputActionType.CANCEL_PIECE);
+			}
+		}
+
+		if (Input.GetAxis("Mouse ScrollWheel") > 0) {
+			InputEvent(InputActionType.ZOOM_IN);
+		}
+
+		if (Input.GetAxis("Mouse ScrollWheel") < 0) {
+			InputEvent(InputActionType.ZOOM_OUT);
+		}
+
+		if (Input.GetMouseButton(2)) {
+			float mouseX = Input.GetAxis("Mouse X");
+			if (mouseX > 0) {
+				InputEvent(InputActionType.ROTATE_RIGHT);
+			} else if (mouseX < 0) {
+				InputEvent(InputActionType.ROTATE_LEFT);
+			}
+
+			float mouseY = Input.GetAxis("Mouse Y");
+			if (mouseY > 0) {
+				InputEvent(InputActionType.ROTATE_UP);
+			} else if (mouseY < 0) {
+				InputEvent(InputActionType.ROTATE_DOWN);
 			}
 		}
 	}

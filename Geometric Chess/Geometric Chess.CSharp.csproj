@@ -87,9 +87,12 @@
     <Compile Include="Assets\Scripts\Base Class\IClickable.cs" />
     <Compile Include="Assets\Scripts\Base Class\IClicker.cs" />
     <Compile Include="Assets\Scripts\Base Class\IHeapItem.cs" />
+    <Compile Include="Assets\Scripts\Base Class\IInput.cs" />
     <Compile Include="Assets\Scripts\Base Class\Movable.cs" />
     <Compile Include="Assets\Scripts\Base Class\Scalable.cs" />
     <Compile Include="Assets\Scripts\Base Class\Singleton.cs" />
+    <Compile Include="Assets\Scripts\Camera\RotateCamera.cs" />
+    <Compile Include="Assets\Scripts\Camera\ZoomCamera.cs" />
     <Compile Include="Assets\Scripts\GCPlayer.cs" />
     <Compile Include="Assets\Scripts\GameState.cs" />
     <Compile Include="Assets\Scripts\Grid\Grid.cs" />

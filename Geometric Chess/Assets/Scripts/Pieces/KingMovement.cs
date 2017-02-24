@@ -16,7 +16,6 @@ public class KingMovement : Movement, IPieceMovement {
 		int origCol = currNode.col;
 		for (int row = -1; row <= 1; row++) {
 			for (int col = -1; col <= 1; col++) {
-				if (Mathf.Abs(row) == Mathf.Abs(col)) continue;
 				if (row == 0 && col == 0) continue;
 
 				int newRow = origRow + row;

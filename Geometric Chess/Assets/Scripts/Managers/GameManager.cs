@@ -132,10 +132,14 @@ public class GameManager : Singleton<GameManager> {
 			currentPlayer.DisableInput();
 		}
 
-		if (currentPlayer == p2 || currentPlayer == null) {
+		if (currentPlayer == p2) {
 			currentPlayer = p1;
+			mainCamera.GetComponent<RotateCamera>().SwitchCamera(PlayerType.P1);
 		} else if (currentPlayer == p1) {
 			currentPlayer = p2;
+			mainCamera.GetComponent<RotateCamera>().SwitchCamera(PlayerType.P2);
+		} else {
+			currentPlayer = p1;
 		}
 
 		currentPlayer.EnableInput();

@@ -6,7 +6,7 @@ public enum PlayerType {
 		P1, P2
 }
 
-public class GCPlayer : IClicker {
+public class GCPlayer : IClicker, IInputReceiver {
 
 	private PlayerType type;
 
@@ -51,7 +51,7 @@ public class GCPlayer : IClicker {
 		InputManager.InputEvent -= OnInputEvent;
 	}
 
-	protected void OnInputEvent(InputActionType action) {
+	public void OnInputEvent(InputActionType action) {
 		switch (action) {
 			case InputActionType.GRAB_PIECE:
 				Node gNode = Finder.RayHitFromScreen<Node>(Input.mousePosition);
