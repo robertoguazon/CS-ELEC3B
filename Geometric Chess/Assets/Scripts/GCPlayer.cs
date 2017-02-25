@@ -95,10 +95,11 @@ public class GCPlayer : IClicker, IInputReceiver {
 					if (piece.IsPossibleMove(tNode)) {
 						Node oldNode = piece.Node;
 						piece.UpdateNode(tNode);
-						checkedBy = null;
+						ClearCheck();
 						GameManager.Instance.PlayerOponent.ComputePieces();
 						if (IsChecked) {
 							piece.UpdateNode(oldNode);
+							Debug.Log("Move checked");
 						} else {
 							piece.MoveToXZ(tNode, AfterPlacing);
 							GameManager.Instance.GameState.Place();
@@ -110,12 +111,14 @@ public class GCPlayer : IClicker, IInputReceiver {
 
 						Node oldNode = piece.Node;
 						Piece ePiece = tNode.Piece;
+						ePiece.UpdateNode(null);
 						piece.UpdateNode(tNode);
-						checkedBy = null;
+						ClearCheck();
 						GameManager.Instance.PlayerOponent.ComputePieces();
 						if (IsChecked) {
 							piece.UpdateNode(oldNode);
 							ePiece.UpdateNode(tNode);
+							Debug.Log("Eat checked");
 						} else {
 							GCPlayer oppPlayer = GameManager.Instance.PlayerOponent;
 							oppPlayer.RemovePiece(tPiece);
@@ -129,6 +132,11 @@ public class GCPlayer : IClicker, IInputReceiver {
 				}
 				break;
 		}
+	}
+
+	public void ClearCheck() {
+		if (checkedBy == null) return;
+		checkedBy.ClearCheck(this);
 	}
 
 	private void AfterPlacing() {

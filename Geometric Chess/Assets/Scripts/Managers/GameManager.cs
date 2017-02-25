@@ -121,8 +121,8 @@ public class GameManager : Singleton<GameManager> {
 		print("Time elapsed: " + timer.ElapsedMilliseconds / 1000.0 + "s");
 		timer.Stop();
 
-		p1.ComputePieces();
-		p2.ComputePieces();
+		//p1.ComputePieces();
+		//p2.ComputePieces();
 
 		//all objects are now ready
 		ready = true;

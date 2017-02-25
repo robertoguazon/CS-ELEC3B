@@ -60,6 +60,7 @@ public abstract class Movement : ScriptableObject {
 	}
 
 	public virtual void Compute(Piece piece) {
+		if (piece == null || piece.Node == null) return;
 		BoundComputations(piece);
 	}
 

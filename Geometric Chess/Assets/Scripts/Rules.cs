@@ -26,9 +26,9 @@ public class Rules : MonoBehaviour {
 			GameManager.Instance.CurrentPlayer.CheckedBy = checkedBy;
 			//checkedPiece.Node.HighlightCheck(); //Experimental
 			//checkedBy.Node.HighlightCheck(); //Experimental
-			Debug.Log("Checked By: " + checkedBy);
 			return true;
 		}
 		return false;
 	}
+
 }

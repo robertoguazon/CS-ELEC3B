@@ -112,7 +112,6 @@ public class Piece : Movable, IClickable {
 	public void ClearPossibleMoves() {
 		while (possibleMoves.Count > 0) {
 			Node node = possibleMoves[0];
-			node.UnhighlightMove();
 			possibleMoves.Remove(node);
 		}
 	}
@@ -120,16 +119,20 @@ public class Piece : Movable, IClickable {
 	public void ClearPossibleEats() {
 		while (possibleEats.Count > 0) {
 			Node node = possibleEats[0];
-			node.UnhighlightEat();
 			possibleEats.Remove(node);
 		}
 	}
 
-	public void ClearCheck() {
-		if (check != null) {
+	public void ClearCheck(GCPlayer player) {
+		if (node != null) {
 			node.UnhighlightCheck();
+		}
+		if (check != null) {
 			check.Node.UnhighlightCheck();
 			check = null;
+		}
+		if (player != null) {
+			player.CheckedBy = null;
 		}
 	}
 
@@ -154,7 +157,9 @@ public class Piece : Movable, IClickable {
 			node.Clear();
 		}
 		node = n;
-		n.Piece = this;
+		if (n != null) {
+			n.Piece = this;
+		}
 	}
 
 	public bool Inform<T>(T arg) {
