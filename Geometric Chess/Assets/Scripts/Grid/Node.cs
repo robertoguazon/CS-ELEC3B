@@ -33,12 +33,38 @@ public class Node : Scalable, IHeapItem<Node>, IClickable {
 		}
 	}
 
-	public void MoveHighlight() {
-		SetMaterial(GameManager.Instance.MoveHighlightMaterial);
+
+	public void HighlightMove() {
+		if (renderer.sharedMaterial != origMaterial) return;
+		SetMaterial(GameManager.Instance.HighlightMoveMaterial);
 	}
 
-	public void EatHighlight() {
-		SetMaterial(GameManager.Instance.EatHighlightMaterial);
+	public void HighlightEat() {
+		if (renderer.sharedMaterial != origMaterial) return;
+		SetMaterial(GameManager.Instance.HighlightEatMaterial);
+	}
+
+	public void HighlightCheck() {
+		if (renderer.sharedMaterial != origMaterial) return;
+		SetMaterial(GameManager.Instance.HighlightCheckMaterial);
+	}
+
+	public void UnhighlightMove() {
+		Unhiglight(GameManager.Instance.HighlightMoveMaterial);
+	}
+	
+	public void UnhighlightEat() {
+		Unhiglight(GameManager.Instance.HighlightEatMaterial);
+	}
+
+	public void UnhighlightCheck() {
+		Unhiglight(GameManager.Instance.HighlightCheckMaterial);
+	}
+
+	private void Unhiglight(Material material) {
+		if (renderer.sharedMaterial == material) {
+			SetMaterialOriginal();
+		}
 	}
 
 	public bool EmptySpace {

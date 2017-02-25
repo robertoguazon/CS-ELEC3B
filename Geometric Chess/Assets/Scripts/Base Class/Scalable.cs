@@ -36,10 +36,6 @@ public class Scalable : MonoBehaviour {
 		SetColor(origColor);
 	}
 
-	public void SetMaterial() {
-
-	}
-
 	public void SetMaterial(Material material) {
 		renderer.material = material;
 	}
@@ -56,6 +52,10 @@ public class Scalable : MonoBehaviour {
 
 	public void ScaleIn(float startAfter, float speed, float endScale) {
 		StartCoroutine(IEScaleIn(startAfter,speed,endScale));
+	}
+
+	public void ScaleIn(float startAfter, float speed, Vector3 endScales) {
+		StartCoroutine(IEScaleIn(startAfter,speed,endScales));
 	}
 
 	public void ScaleBy(float startAfter, float speed, float scaleBy) {
@@ -86,18 +86,32 @@ public class Scalable : MonoBehaviour {
 	}
 
 	public IEnumerator IEScaleIn(float startAfter, float speed, float endScale) {
-	yield return new WaitForSeconds(startAfter);
+		yield return new WaitForSeconds(startAfter);
 		ready = false;
 		float t = Time.deltaTime * speed;
 		float scale = 1f;
-		Vector3 origScale = gameObject.transform.localScale;
 		while(t < Mathf.PI / 2) {
 			t += Time.deltaTime * speed;
 			scale = endScale * Mathf.Sin(t);
-			gameObject.transform.localScale = new Vector3(scale,scale,scale);
+			transform.localScale = new Vector3(scale,scale,scale);
 			yield return null;
 		}
-		gameObject.transform.localScale = new Vector3(endScale, endScale, endScale);
+		transform.localScale = new Vector3(endScale, endScale, endScale);
+		ready = true;
+	}
+
+	public IEnumerator IEScaleIn(float startAfter, float speed, Vector3 endScales) {
+		yield return new WaitForSeconds(startAfter);
+		ready = false;
+		float t = Time.deltaTime * speed;
+		float scale = 1f;
+		while(t < Mathf.PI / 2) {
+			t += Time.deltaTime * speed;
+			scale = 1f * Mathf.Sin(t);
+			transform.localScale = endScales * scale;
+			yield return null;
+		}
+		transform.localScale = endScales * scale;
 		ready = true;
 	}
 

@@ -16,8 +16,8 @@ public class Creator {
 				return new BishopMovement();
 			case MovementType.QUEEN:
 				return new QueenMovement();
-			case MovementType.HORSE:
-				return new HorseMovement();
+			case MovementType.KNIGHT:
+				return new KnightMovement();
 			case MovementType.NONE:
 			default:
 				return new NoMovement();

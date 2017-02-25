@@ -17,9 +17,11 @@ public class GameManager : Singleton<GameManager> {
 	[SerializeField]
 	private Color pieceHighlightColor;
 	[SerializeField]
-	private Material moveHighlightMaterial;
+	private Material highlightMoveMaterial;
 	[SerializeField]
-	private Material eatHighlightMaterial;
+	private Material highlightEatMaterial;
+	[SerializeField]
+	private Material highlightCheckMaterial;
 
 	private GCPlayer p1;
 	private GCPlayer p2;
@@ -37,16 +39,20 @@ public class GameManager : Singleton<GameManager> {
 		}
 	}
 
-	public Material EatHighlightMaterial {
-		get {return eatHighlightMaterial;}
+	public Material HighlightCheckMaterial {
+		get {return highlightCheckMaterial;}
+	}
+
+	public Material HighlightEatMaterial {
+		get {return highlightEatMaterial;}
 	}
 
 	public Color PieceHighlightColor {
 		get {return pieceHighlightColor;}
 	}
 
-	public Material MoveHighlightMaterial {
-		get {return moveHighlightMaterial;}
+	public Material HighlightMoveMaterial {
+		get {return highlightMoveMaterial;}
 	}
 
 	public GameState GameState {
@@ -112,9 +118,11 @@ public class GameManager : Singleton<GameManager> {
 		while (!grid.ArePiecesSpawned) yield return null; //wait till pieces are spawned
 		while (!p1.IsReady) yield return null; //wait till all pieces are scaled in
 		while (!p2.IsReady) yield return null;
-
 		print("Time elapsed: " + timer.ElapsedMilliseconds / 1000.0 + "s");
 		timer.Stop();
+
+		p1.ComputePieces();
+		p2.ComputePieces();
 
 		//all objects are now ready
 		ready = true;

@@ -108,7 +108,7 @@ public class Grid : MonoBehaviour {
 				go.transform.parent = transform;
 				go.transform.localScale = Vector3.zero;
 
-				dn.ScaleIn(Random.Range(0f,1f),Random.Range(1f,2f),1f);
+				dn.ScaleIn(Random.Range(0f,1f),Random.Range(1f,2f),tile.transform.localScale);
 				tile = SwapTilePrefab(tile);
 			}
 			tile = SwapTilePrefab(tile);
@@ -138,36 +138,36 @@ public class Grid : MonoBehaviour {
 		PlayerType p2T = PlayerType.P2;
 
 		//spawn circles
-		for (int i = 1; i <= 6; i++) {
-			SpawnPiece(new GridCoords(2,i),piecesPrefabs[2], p1T); // p1 circ
-			SpawnPiece(new GridCoords(5,i),piecesPrefabs[2], p2T); // p2 circ
+		for (int i = 0; i <= 7; i++) {
+			SpawnPiece(new GridCoords(1,i),piecesPrefabs[2], p1T); // p1 circ
+			SpawnPiece(new GridCoords(6,i),piecesPrefabs[2], p2T); // p2 circ
 		}
 
 		//spawn boxes
-		SpawnPiece(new GridCoords(1,1),piecesPrefabs[0], p1T); //p1 box
-		SpawnPiece(new GridCoords(1,6),piecesPrefabs[0], p1T); //p1 box
-		SpawnPiece(new GridCoords(6,1),piecesPrefabs[0], p2T); //p2 box
-		SpawnPiece(new GridCoords(6,6),piecesPrefabs[0], p2T); //p2 box
+		SpawnPiece(new GridCoords(0,0),piecesPrefabs[0], p1T); //p1 box
+		SpawnPiece(new GridCoords(0,7),piecesPrefabs[0], p1T); //p1 box
+		SpawnPiece(new GridCoords(7,0),piecesPrefabs[0], p2T); //p2 box
+		SpawnPiece(new GridCoords(7,7),piecesPrefabs[0], p2T); //p2 box
 
 		//spawn triangles
-		SpawnPiece(new GridCoords(1,2),piecesPrefabs[1], 180, p1T); //p1 tri
-		SpawnPiece(new GridCoords(1,5),piecesPrefabs[1], 180, p1T); //p1 tri
-		SpawnPiece(new GridCoords(6,2),piecesPrefabs[1], p2T); //p2 tri
-		SpawnPiece(new GridCoords(6,5),piecesPrefabs[1], p2T); //p2 tri
+		SpawnPiece(new GridCoords(0,2),piecesPrefabs[1], 180, p1T); //p1 tri
+		SpawnPiece(new GridCoords(0,5),piecesPrefabs[1], 180, p1T); //p1 tri
+		SpawnPiece(new GridCoords(7,2),piecesPrefabs[1], p2T); //p2 tri
+		SpawnPiece(new GridCoords(7,5),piecesPrefabs[1], p2T); //p2 tri
 
 		//spawn crosses
-		SpawnPiece(new GridCoords(1,4),piecesPrefabs[3], p1T); //p1 cross
-		SpawnPiece(new GridCoords(6,4),piecesPrefabs[3], p2T); //p2 cross
-
-		//TODELETE
-		SpawnPiece(new GridCoords(7,4),piecesPrefabs[3], p1T); //p1 cross
-		SpawnPiece(new GridCoords(7,1),piecesPrefabs[3], p1T); //p1 cross
-		SpawnPiece(new GridCoords(0,4),piecesPrefabs[3], p2T); //p2 cross SAMPLE
-		SpawnPiece(new GridCoords(0,1),piecesPrefabs[3], p2T); //p2 cross SAMPLE
+		SpawnPiece(new GridCoords(0,4),piecesPrefabs[3], p1T); //p1 cross
+		SpawnPiece(new GridCoords(7,4),piecesPrefabs[3], p2T); //p2 cross
 
 		//spawn hexagons
-		SpawnPiece(new GridCoords(1,3),piecesPrefabs[4], p1T); //p1 hex
-		SpawnPiece(new GridCoords(6,3),piecesPrefabs[4], p2T); //p2 hex
+		SpawnPiece(new GridCoords(0,3),piecesPrefabs[4], p1T); //p1 hex
+		SpawnPiece(new GridCoords(7,3),piecesPrefabs[4], p2T); //p2 hex
+
+		//spawn rectangles - knights for sample
+		SpawnPiece(new GridCoords(0,1),piecesPrefabs[5], p1T); //p1 rect
+		SpawnPiece(new GridCoords(0,6),piecesPrefabs[5], p1T); //p1 rect
+		SpawnPiece(new GridCoords(7,1),piecesPrefabs[5], p2T); //p2 rect
+		SpawnPiece(new GridCoords(7,6),piecesPrefabs[5], p2T); //p2 rect
 
 		piecesSpawned = true;
 	}
@@ -179,7 +179,7 @@ public class Grid : MonoBehaviour {
 		Quaternion newPRotation = Quaternion.Euler(pRotation.x, yRotation, pRotation.z);
 
 		GameObject pieceObject = Instantiate(piece, pieceNode.transform.position + Vector3.up * 1.2f, newPRotation) as GameObject;
-		pieceObject.transform.localScale = Vector3.zero;
+		pieceObject.transform.localScale = Vector3.zero; //for scaling in start from zero
 		Piece pieceScript = pieceObject.GetComponent(typeof(Piece)) as Piece;
 
 		//assign mat and player type
@@ -199,7 +199,7 @@ public class Grid : MonoBehaviour {
 		player.AddPieces(pieceScript);
 		
 		if(pieceScript) //if exists type then scale
-			pieceScript.ScaleIn(Random.Range(0f,1f),Random.Range(1f,2f),piece.transform.localScale.x);
+			pieceScript.ScaleIn(Random.Range(0f,1f),Random.Range(1f,2f),piece.transform.localScale);
 
 		pieceScript.UpdateNode(pieceNode);
 	}

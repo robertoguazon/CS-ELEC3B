@@ -76,16 +76,17 @@ public class InputManager : Singleton<InputManager> {
 	void HighlightTile() {
 		if (GameManager.Instance.GameState.IsWaiting) {
 			if (currentNode != null) {
-				currentNode.SetMaterialOriginal();
+				currentNode.UnhighlightEat();
+				currentNode.UnhighlightMove();
 			}
 			currentNode = Finder.RayHitFromScreen<Node>(Input.mousePosition);
 			if (currentNode != null) {
 				Piece piece = currentNode.Piece;
 				if (piece != null) {
 					if (GameManager.Instance.CurrentPlayer.Has(piece)) {
-						currentNode.MoveHighlight();
+						currentNode.HighlightMove();
 					} else {
-						currentNode.EatHighlight();
+						currentNode.HighlightEat();
 					}
 				}
 			}

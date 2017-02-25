@@ -12,10 +12,20 @@ public class GCPlayer : IClicker, IInputReceiver {
 
 	private List<Piece> pieces;
 	private List<Piece> eatenPieces;
-	private List<Node> possibleMoves;
-	private List<Node> possibleEats;
 
 	private Piece piece;
+	private Piece checkedBy; //Experimental
+
+	//Experimental
+	public bool IsChecked {
+		get {return checkedBy != null;}
+	}
+
+	//Experimental
+	public Piece CheckedBy {
+		get {return checkedBy;}
+		set {checkedBy = value;}
+	}
 
 	public Piece HoldingPiece {
 		get {return piece;}
@@ -39,8 +49,6 @@ public class GCPlayer : IClicker, IInputReceiver {
 		this.type = type;
 		pieces = new List<Piece>();
 		eatenPieces = new List<Piece>();
-		possibleEats = new List<Node>();
-		possibleMoves = new List<Node>();
 	}
 
 	public void EnableInput() {
@@ -62,6 +70,8 @@ public class GCPlayer : IClicker, IInputReceiver {
 				if (Click(gNode) && piece && Has(piece) && Click(piece)) {
 					piece.Pickup();
 					piece.Compute();
+					piece.HighlightPossibleMoves();
+					piece.HighlightPossibleEats();
 					GameManager.Instance.GameState.Grab();
 				} 
 
@@ -82,21 +92,40 @@ public class GCPlayer : IClicker, IInputReceiver {
 				if (tNode == null) break;
 				Piece tPiece = tNode.Piece;
 				if (tPiece == null) {
-					if (IsPossibleMove(tNode)) {
-						piece.MoveToXZ(tNode, AfterPlacing);
+					if (piece.IsPossibleMove(tNode)) {
+						Node oldNode = piece.Node;
 						piece.UpdateNode(tNode);
-						GameManager.Instance.GameState.Place();
+						checkedBy = null;
+						GameManager.Instance.PlayerOponent.ComputePieces();
+						if (IsChecked) {
+							piece.UpdateNode(oldNode);
+						} else {
+							piece.MoveToXZ(tNode, AfterPlacing);
+							GameManager.Instance.GameState.Place();
+							//piece.Compute(); //Experimental
+						}
 					}
 				} else {
-					if (IsPossibleEat(tNode)) {
-						GCPlayer oppPlayer = GameManager.Instance.PlayerOponent;
-						oppPlayer.RemovePiece(tPiece);
-						AddEatenPieces(tPiece);
-						tPiece.ScaleOut(0.2f, 1.5f);
-						piece.MoveToXZ(tNode, AfterPlacing);
+					if (piece.IsPossibleEat(tNode)) {
+
+						Node oldNode = piece.Node;
+						Piece ePiece = tNode.Piece;
 						piece.UpdateNode(tNode);
-						GameManager.Instance.GameState.Place();
+						checkedBy = null;
+						GameManager.Instance.PlayerOponent.ComputePieces();
+						if (IsChecked) {
+							piece.UpdateNode(oldNode);
+							ePiece.UpdateNode(tNode);
+						} else {
+							GCPlayer oppPlayer = GameManager.Instance.PlayerOponent;
+							oppPlayer.RemovePiece(tPiece);
+							AddEatenPieces(tPiece);
+							tPiece.ScaleOut(0.2f, 1.5f);
+							piece.MoveToXZ(tNode, AfterPlacing);
+							GameManager.Instance.GameState.Place();
+						}
 					}
+					//piece.Compute(); //Experimental
 				}
 				break;
 		}
@@ -110,14 +139,6 @@ public class GCPlayer : IClicker, IInputReceiver {
 
 	public bool Has(Piece piece) {
 		return pieces.Contains(piece);
-	}
-
-	public bool IsPossibleMove(Node node) {
-		return this.possibleMoves.Contains(node);
-	}
-
-	public bool IsPossibleEat(Node node) {
-		return this.possibleEats.Contains(node);
 	}
 
 	public bool Click(IClickable clickable) {
@@ -141,31 +162,9 @@ public class GCPlayer : IClicker, IInputReceiver {
 		return pieces.Remove(piece);
 	}
 
-	public void AddPossibleMoves(params Node[] nodes) {
-		for (int i = 0; i < nodes.Length; i++) {
-			this.possibleMoves.Add(nodes[i]);
-		}
-	}
-
-	public void AddPossibleEats(params Node[] nodes) {
-		for (int i = 0; i < nodes.Length; i++) {
-			this.possibleEats.Add(nodes[i]);
-		}
-	}
-
-	public void ClearPossibleMoves() {
-		while (possibleMoves.Count > 0) {
-			Node node = possibleMoves[0];
-			node.SetMaterialOriginal();
-			possibleMoves.Remove(node);
-		}
-	}
-
-	public void ClearPossibleEats() {
-		while (possibleEats.Count > 0) {
-			Node node = possibleEats[0];
-			node.SetMaterialOriginal();
-			possibleEats.Remove(node);
+	public void ComputePieces() {
+		for (int i = 0; i < pieces.Count; i++) {
+			pieces[i].Compute();
 		}
 	}
 }

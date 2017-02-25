@@ -101,15 +101,16 @@
     <Compile Include="Assets\Scripts\Managers\GameManager.cs" />
     <Compile Include="Assets\Scripts\Managers\InputManager.cs" />
     <Compile Include="Assets\Scripts\Pieces\BishopMovement.cs" />
-    <Compile Include="Assets\Scripts\Pieces\HorseMovement.cs" />
     <Compile Include="Assets\Scripts\Pieces\IPieceMovement.cs" />
     <Compile Include="Assets\Scripts\Pieces\KingMovement.cs" />
+    <Compile Include="Assets\Scripts\Pieces\KnightMovement.cs" />
     <Compile Include="Assets\Scripts\Pieces\Movement.cs" />
     <Compile Include="Assets\Scripts\Pieces\NoMovement.cs" />
     <Compile Include="Assets\Scripts\Pieces\PawnMovement.cs" />
     <Compile Include="Assets\Scripts\Pieces\Piece.cs" />
     <Compile Include="Assets\Scripts\Pieces\QueenMovement.cs" />
     <Compile Include="Assets\Scripts\Pieces\RookMovement.cs" />
+    <Compile Include="Assets\Scripts\Rules.cs" />
     <Compile Include="Assets\Scripts\Utils\Converter.cs" />
     <Compile Include="Assets\Scripts\Utils\Creator.cs" />
     <Compile Include="Assets\Scripts\Utils\Finder.cs" />
