@@ -9,9 +9,16 @@ public enum GameStateType {
 	GAME_OVER
 }
 
+public enum GameOverType {
+	CHECKMATE,
+	STALEMATE,
+	SURRENDER,
+}
+
 public class GameState {
 
 	private GameStateType state;
+	private GameOverType gameOverType;
 
 	public GameState() {
 		state = GameStateType.WAITING;
@@ -51,6 +58,16 @@ public class GameState {
 
 	public void Cancel() {
 		state = GameStateType.WAITING;
+	}
+
+	public void Checkmate() {
+		state = GameStateType.GAME_OVER;
+		gameOverType = GameOverType.CHECKMATE;
+	}
+
+	public void Stalemate() {
+		state = GameStateType.GAME_OVER;
+		gameOverType = GameOverType.STALEMATE;
 	}
 
 	public bool IsGameOver {

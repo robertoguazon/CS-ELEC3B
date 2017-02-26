@@ -33,9 +33,7 @@ public class GameManager : Singleton<GameManager> {
 
 	public GCPlayer PlayerOponent {
 		get {
-			if (currentPlayer == null) return null;
-			if (currentPlayer == p1) return p2;
-			else return p1;
+			return Opponent(currentPlayer);
 		}
 	}
 
@@ -100,7 +98,6 @@ public class GameManager : Singleton<GameManager> {
 		p1 = new GCPlayer(PlayerType.P1);
 		p2 = new GCPlayer(PlayerType.P2);
 		gameState = new GameState();
-		SwitchPlayer();
 	}
 
 	// Use this for initialization
@@ -121,8 +118,10 @@ public class GameManager : Singleton<GameManager> {
 		print("Time elapsed: " + timer.ElapsedMilliseconds / 1000.0 + "s");
 		timer.Stop();
 
-		//p1.ComputePieces();
-		//p2.ComputePieces();
+		//IMPORTANT
+		p1.ComputePieces();
+		p2.ComputePieces(); 
+		SwitchPlayer(); //if null current player = p1
 
 		//all objects are now ready
 		ready = true;
@@ -150,8 +149,26 @@ public class GameManager : Singleton<GameManager> {
 			currentPlayer = p1;
 		}
 
+		//IF checkmate
+		if (Rules.HasNoMove()) {	
+			InputManager.Instance.UnHighlightTile();
+			if (currentPlayer.IsChecked) {
+				GameManager.Instance.GameState.Checkmate();
+				print("CHECKMATE");
+			} else {
+				GameManager.Instance.GameState.Stalemate();
+				print("STALEMATE");
+			}
+		}
+
 		currentPlayer.EnableInput();
 
-		print(currentPlayer.Type); //show on screen 
+		print("Turn of: " + currentPlayer.Type); //show on screen 
+	}
+
+	public GCPlayer Opponent(GCPlayer player) {
+		if (player == null) return null;
+		if (player == p1) return p2;
+		else return p1;
 	}
 }

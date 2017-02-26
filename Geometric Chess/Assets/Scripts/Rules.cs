@@ -21,9 +21,9 @@ public class Rules : MonoBehaviour {
 		return false;
 	}
 
-	public static bool CheckKing(Piece checkedBy, Piece checkedPiece) {
+	public static bool CheckKing(GCPlayer player, Piece checkedBy, Piece checkedPiece) {
 		if (checkedPiece.PieceType == PieceType.CROSS) {
-			GameManager.Instance.CurrentPlayer.CheckedBy = checkedBy;
+			GameManager.Instance.Opponent(player).CheckedBy = checkedBy;
 			//checkedPiece.Node.HighlightCheck(); //Experimental
 			//checkedBy.Node.HighlightCheck(); //Experimental
 			return true;
@@ -31,4 +31,73 @@ public class Rules : MonoBehaviour {
 		return false;
 	}
 
+	//Modifies the move if modify = true
+	public static bool IsCheckMove(GCPlayer player, Piece piece, Node tNode, bool modify) {
+		Node oldNode = piece.Node;
+		piece.UpdateNode(tNode);
+		Piece checkedBy = player.CheckedBy;
+		player.ClearCheck();
+		GameManager.Instance.Opponent(player).ComputePieces();
+		if (player.IsChecked) {
+			piece.UpdateNode(oldNode);
+			player.CheckedBy = checkedBy;
+			return true;
+		}
+
+		if (!modify) {
+			piece.UpdateNode(oldNode);
+			player.CheckedBy = checkedBy;
+		}
+		return false;
+	}
+
+
+	//Modifies the move if modify = true;
+	public static bool IsCheckEat(GCPlayer player, Piece piece, Node tNode, bool modify) {
+		Node oldNode = piece.Node;
+		Piece tPiece = tNode.Piece;
+		tPiece.UpdateNode(null);
+		piece.UpdateNode(tNode);
+		Piece checkedBy = player.CheckedBy;
+		player.ClearCheck();
+		GameManager.Instance.Opponent(player).ComputePieces();
+		if (player.IsChecked) {
+			piece.UpdateNode(oldNode);
+			tPiece.UpdateNode(tNode);
+			player.CheckedBy = checkedBy;
+			return true;
+		}
+
+		if (!modify) {
+			piece.UpdateNode(oldNode);
+			tPiece.UpdateNode(tNode);
+			player.CheckedBy = checkedBy;
+		}
+		return false;
+	}
+
+	public static bool HasNoMove() {
+		GCPlayer player = GameManager.Instance.CurrentPlayer;
+		List<Piece> pieces = player.Pieces;
+
+		for (int i = 0; i < pieces.Count; i++) {
+			List<Node> possibleMoves = pieces[i].PossibleMoves;
+			for (int j = 0; j < possibleMoves.Count; j++) {
+				Node tNode = possibleMoves[j];
+				if (!Rules.IsCheckMove(player, pieces[i], tNode, false)) {
+					return false;
+				}
+			}
+			
+			List<Node> possibleEats = pieces[i].PossibleEats;
+			for (int j = 0; j < possibleEats.Count; j++) {
+				Node tNode = possibleEats[j];
+				if (!Rules.IsCheckEat(player, pieces[i], tNode, false)) {
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
 }

@@ -36,6 +36,7 @@ public class InputManager : Singleton<InputManager> {
 
 		if (Input.GetMouseButtonUp(0)) {
 			if (GameManager.Instance.GameState.IsWaiting) {
+				UnHighlightTile();
 				InputEvent(InputActionType.GRAB_PIECE);
 			} else if (GameManager.Instance.GameState.IsHolding) {
 				InputEvent(InputActionType.PLACE_PIECE);
@@ -73,12 +74,9 @@ public class InputManager : Singleton<InputManager> {
 		}
 	}
 
-	void HighlightTile() {
+	public void HighlightTile() {
 		if (GameManager.Instance.GameState.IsWaiting) {
-			if (currentNode != null) {
-				currentNode.UnhighlightEat();
-				currentNode.UnhighlightMove();
-			}
+			UnHighlightTile();
 			currentNode = Finder.RayHitFromScreen<Node>(Input.mousePosition);
 			if (currentNode != null) {
 				Piece piece = currentNode.Piece;
@@ -90,6 +88,13 @@ public class InputManager : Singleton<InputManager> {
 					}
 				}
 			}
+		}
+	}
+
+	public void UnHighlightTile() {
+		if (currentNode != null) {
+			currentNode.UnhighlightEat();
+			currentNode.UnhighlightMove();
 		}
 	}
 

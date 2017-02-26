@@ -14,7 +14,7 @@ public class QueenMovement : Movement, IPieceMovement {
 		BoundComputations += bishop.ComputeBound;
 	}
 
-	public void ComputeBound(Piece piece) {
+	public void ComputeBound(GCPlayer player, Piece piece) {
 		//do nothing
 	}
 }

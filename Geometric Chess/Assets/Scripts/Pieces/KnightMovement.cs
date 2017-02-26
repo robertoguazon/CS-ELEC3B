@@ -8,8 +8,7 @@ public class KnightMovement : Movement, IPieceMovement {
 		BoundComputations += ComputeBound;
 	}
 
-	public void ComputeBound(Piece piece) {
-		GCPlayer player = GameManager.Instance.CurrentPlayer;
+	public void ComputeBound(GCPlayer player, Piece piece) {
 		Node currNode = piece.Node;
 		int origRow = currNode.row;
 		int origCol = currNode.col;

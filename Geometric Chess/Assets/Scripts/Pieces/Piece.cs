@@ -27,6 +27,7 @@ public class Piece : Movable, IClickable {
 
 	private List<Node> possibleMoves;
 	private List<Node> possibleEats;
+	/*
 	private Piece check;
 
 	public bool Checking {
@@ -37,6 +38,7 @@ public class Piece : Movable, IClickable {
 		get {return check;}
 		set {check = value;}
 	}
+	*/
 
 	public List<Node> PossibleMoves {
 		get { return possibleMoves;}
@@ -123,6 +125,7 @@ public class Piece : Movable, IClickable {
 		}
 	}
 
+/*
 	public void ClearCheck(GCPlayer player) {
 		if (node != null) {
 			node.UnhighlightCheck();
@@ -135,9 +138,10 @@ public class Piece : Movable, IClickable {
 			player.CheckedBy = null;
 		}
 	}
+*/
 
-	public void Compute() {
-		pieceMovement.Compute(this);
+	public void Compute(GCPlayer player) {
+		pieceMovement.Compute(player, this);
 	}
 
 	public string ChessCoords {

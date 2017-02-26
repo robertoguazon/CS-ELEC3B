@@ -169,6 +169,9 @@ public class Grid : MonoBehaviour {
 		SpawnPiece(new GridCoords(7,1),piecesPrefabs[5], p2T); //p2 rect
 		SpawnPiece(new GridCoords(7,6),piecesPrefabs[5], p2T); //p2 rect
 
+
+
+
 		piecesSpawned = true;
 	}
 

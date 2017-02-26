@@ -21,7 +21,7 @@ public abstract class Movement : ScriptableObject {
 		BoundComputations += ClearPossibles;
 	}
 
-	public void ClearPossibles(Piece piece) {
+	public void ClearPossibles(GCPlayer player, Piece piece) {
 		piece.ClearPossibleEats();
 		piece.ClearPossibleMoves();
 	}
@@ -39,7 +39,7 @@ public abstract class Movement : ScriptableObject {
 	public bool ComputeEatPiece(GCPlayer player, Piece playerPiece, Node toCheckNode) {
 		if (toCheckNode == null) return false;
 		if (!toCheckNode.EmptySpace && Rules.IsEnemy(playerPiece, toCheckNode.Piece)) {
-			AddToCheckOrEat(playerPiece, toCheckNode.Piece);
+			AddToCheckOrEat(player, playerPiece, toCheckNode.Piece);
 			return true;
 		}
 
@@ -52,16 +52,16 @@ public abstract class Movement : ScriptableObject {
 			playerPiece.AddPossibleMoves(toCheckNode);
 			return true;
 		} else if (Rules.IsEnemy(playerPiece, toCheckNode.Piece)) {
-			AddToCheckOrEat(playerPiece, toCheckNode.Piece);
+			AddToCheckOrEat(player, playerPiece, toCheckNode.Piece);
 			return true;
 		}
 
 		return false;
 	}
 
-	public virtual void Compute(Piece piece) {
+	public virtual void Compute(GCPlayer player, Piece piece) {
 		if (piece == null || piece.Node == null) return;
-		BoundComputations(piece);
+		BoundComputations(player, piece);
 	}
 
 	//returns true if met an ally or enemy, this is for square and triangle, to cause a block
@@ -70,7 +70,7 @@ public abstract class Movement : ScriptableObject {
 		if (toCheckNode.EmptySpace) {
 			playerPiece.AddPossibleMoves(toCheckNode);
 		} else if (Rules.IsEnemy(playerPiece, toCheckNode.Piece)) {
-			AddToCheckOrEat(playerPiece, toCheckNode.Piece);
+			AddToCheckOrEat(player, playerPiece, toCheckNode.Piece);
 			return true;
 		} else {
 			return true;
@@ -79,9 +79,9 @@ public abstract class Movement : ScriptableObject {
 		return false;
 	}
 
-	private void AddToCheckOrEat(Piece playerPiece, Piece toCheckPiece) {
-		if (Rules.CheckKing(playerPiece, toCheckPiece)) {
-			playerPiece.Check = toCheckPiece;
+	private void AddToCheckOrEat(GCPlayer player, Piece playerPiece, Piece toCheckPiece) {
+		if (Rules.CheckKing(player, playerPiece, toCheckPiece)) {
+			//playerPiece.Check = toCheckPiece;
 		} else {
 			playerPiece.AddPossibleEats(toCheckPiece.Node);
 		}

@@ -8,7 +8,7 @@ public class NoMovement :  Movement, IPieceMovement {
 		BoundComputations += ComputeBound;
 	}
 
-	public void ComputeBound(Piece piece) {
+	public void ComputeBound(GCPlayer player, Piece piece) {
 		//do nothing
 	}
 }
