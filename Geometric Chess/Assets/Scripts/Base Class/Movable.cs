@@ -13,17 +13,17 @@ public class Movable : Scalable {
 		base.Start();
 	}
 
-	public void MoveToXZ(Node node, Action finishCallback) {
+	public virtual void MoveToXZ(Node node, Action finishCallback) {
 		StopMoveCoroutine();
 		moveCoroutine = StartCoroutine(IEMoveToXZ(node, finishCallback));
 	}
 
-	public void MoveBy(Vector3 addPos, Action finishCallback) {
+	public virtual void MoveBy(Vector3 addPos, Action finishCallback) {
 		StopMoveCoroutine();
 		moveCoroutine = StartCoroutine(IEMoveBy(addPos, finishCallback));
 	}
 
-	protected void StopMoveCoroutine() {
+	protected virtual void StopMoveCoroutine() {
 		if (moveCoroutine != null) {
 			StopCoroutine(moveCoroutine);
 		}

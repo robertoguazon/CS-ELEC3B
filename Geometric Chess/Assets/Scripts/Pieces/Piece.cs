@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public enum PieceType {
 	NONE,
@@ -142,6 +143,11 @@ public class Piece : Movable, IClickable {
 
 	public void Compute(GCPlayer player) {
 		pieceMovement.Compute(player, this);
+	}
+
+	public override void MoveToXZ(Node node, Action finishCallback) {
+		base.MoveToXZ(node, finishCallback);
+		pieceMovement.Moved(this);
 	}
 
 	public string ChessCoords {

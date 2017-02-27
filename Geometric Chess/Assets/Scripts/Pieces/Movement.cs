@@ -39,7 +39,7 @@ public abstract class Movement : ScriptableObject {
 	public bool ComputeEatPiece(GCPlayer player, Piece playerPiece, Node toCheckNode) {
 		if (toCheckNode == null) return false;
 		if (!toCheckNode.EmptySpace && Rules.IsEnemy(playerPiece, toCheckNode.Piece)) {
-			AddToCheckOrEat(player, playerPiece, toCheckNode.Piece);
+			AddToCheckOrEat(player, playerPiece, toCheckNode);
 			return true;
 		}
 
@@ -52,7 +52,7 @@ public abstract class Movement : ScriptableObject {
 			playerPiece.AddPossibleMoves(toCheckNode);
 			return true;
 		} else if (Rules.IsEnemy(playerPiece, toCheckNode.Piece)) {
-			AddToCheckOrEat(player, playerPiece, toCheckNode.Piece);
+			AddToCheckOrEat(player, playerPiece, toCheckNode);
 			return true;
 		}
 
@@ -70,7 +70,7 @@ public abstract class Movement : ScriptableObject {
 		if (toCheckNode.EmptySpace) {
 			playerPiece.AddPossibleMoves(toCheckNode);
 		} else if (Rules.IsEnemy(playerPiece, toCheckNode.Piece)) {
-			AddToCheckOrEat(player, playerPiece, toCheckNode.Piece);
+			AddToCheckOrEat(player, playerPiece, toCheckNode);
 			return true;
 		} else {
 			return true;
@@ -79,11 +79,11 @@ public abstract class Movement : ScriptableObject {
 		return false;
 	}
 
-	private void AddToCheckOrEat(GCPlayer player, Piece playerPiece, Piece toCheckPiece) {
-		if (Rules.CheckKing(player, playerPiece, toCheckPiece)) {
+	private void AddToCheckOrEat(GCPlayer player, Piece playerPiece, Node toCheckNode) {
+		if (Rules.CheckKing(player, playerPiece, toCheckNode.Piece)) {
 			//playerPiece.Check = toCheckPiece;
 		} else {
-			playerPiece.AddPossibleEats(toCheckPiece.Node);
+			playerPiece.AddPossibleEats(toCheckNode);
 		}
 	}
 }

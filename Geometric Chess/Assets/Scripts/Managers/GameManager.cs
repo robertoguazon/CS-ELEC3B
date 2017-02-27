@@ -23,6 +23,9 @@ public class GameManager : Singleton<GameManager> {
 	[SerializeField]
 	private Material highlightCheckMaterial;
 
+	public delegate void SwitchedPlayer();
+	public static event SwitchedPlayer SwitchedEvent;
+
 	private GCPlayer p1;
 	private GCPlayer p2;
 	private GCPlayer currentPlayer;
@@ -162,6 +165,7 @@ public class GameManager : Singleton<GameManager> {
 		}
 
 		currentPlayer.EnableInput();
+		SwitchedEvent(); //EXPERIMENTAL
 
 		print("Turn of: " + currentPlayer.Type); //show on screen 
 	}

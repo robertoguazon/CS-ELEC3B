@@ -28,8 +28,7 @@ public class Node : Scalable, IHeapItem<Node>, IClickable {
 	public Piece Piece {
 		get {return piece;}
 		set {
-			if (value.Node == this)
-				piece = value;
+			piece = value;
 		}
 	}
 

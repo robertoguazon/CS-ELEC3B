@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class PawnMovement : Movement, IPieceMovement {
 
+	private bool moved = false;
+	private bool didSpecialMove = false;
+	private Node[] specialNodes = null;
+	private bool turn = true;
+
 	public PawnMovement() {
 		BoundComputations += ComputeBound;
+		GameManager.SwitchedEvent += OnSwitchEvent;
+		specialNodes = new Node[2];
 	}
 
 	public void ComputeBound(GCPlayer player, Piece piece) {
@@ -34,5 +41,37 @@ public class PawnMovement : Movement, IPieceMovement {
 		ComputeEatPiece(player, piece,leftEatNode);
 		ComputeEatPiece(player, piece, rightEatNode);
 		ComputeMovePiece(player, piece, frontNode);
+
+		if (!moved && !didSpecialMove) {
+			specialNodes[0] = frontNode;
+			specialNodes[1] = grid.GetNodeAt(origRow + toAdd * 2, origCol);
+			ComputeMovePiece(player,piece, specialNodes[1]);
+		}
+	}
+
+	public void OnSwitchEvent() {
+		turn = !turn;
+		if (!turn) return;
+
+		if (moved && didSpecialMove) { // on next move
+			Debug.Log("released en passant" );
+			if (specialNodes[0] != null) {
+				specialNodes[0].Piece = null;
+			}
+			specialNodes[0] = null;
+			specialNodes[1] = null;
+		}
+	}
+
+	public void Moved(Piece piece) {
+		if (specialNodes[0] == null && specialNodes[1] == null) return;
+
+		if (!moved) {
+			moved = true;
+			if (specialNodes[1] == piece.Node) {
+				didSpecialMove = true;
+				specialNodes[0].Piece = piece;
+			}
+		}
 	}
 }

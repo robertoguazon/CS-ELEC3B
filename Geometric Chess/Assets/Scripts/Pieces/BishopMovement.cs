@@ -47,4 +47,8 @@ public class BishopMovement : Movement, IPieceMovement {
 			if (ComputeMoveOrEatPieceEnemyAlly(player,piece,newNode)) break;
 		}
 	}
+	
+	public void Moved(Piece piece) {
+		
+	}
 }

@@ -9,4 +9,5 @@ public interface IPieceMovement {
 	event ComputeBound BoundComputations;
 	void ComputeBound(GCPlayer player, Piece piece);
 	void Compute(GCPlayer player, Piece piece);
+	void Moved(Piece piece);
 }

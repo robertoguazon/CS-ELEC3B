@@ -24,5 +24,7 @@ public class KingMovement : Movement, IPieceMovement {
 		}
 	}
 
-
+	public void Moved(Piece piece) {
+		
+	}
 }

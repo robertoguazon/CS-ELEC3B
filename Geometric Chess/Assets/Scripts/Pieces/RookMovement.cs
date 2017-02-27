@@ -43,4 +43,8 @@ public class RookMovement : Movement, IPieceMovement {
 		}
 	}
 
+	public void Moved(Piece piece) {
+		
+	}
+
 }

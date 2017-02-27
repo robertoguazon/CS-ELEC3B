@@ -40,4 +40,8 @@ public class KnightMovement : Movement, IPieceMovement {
 		if (Mathf.Abs(n) == 1) return 2 * ((posSign) ? 1 : -1);
 		return 0;
 	}
+
+	public void Moved(Piece piece) {
+		
+	}
 }
