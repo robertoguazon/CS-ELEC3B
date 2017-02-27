@@ -109,7 +109,6 @@ public class GCPlayer : IClicker, IInputReceiver {
 						} else {
 							piece.MoveToXZ(tNode, Drop);
 							GameManager.Instance.GameState.Place();
-							//piece.Compute(this); //Experimental
 						}
 					}
 				} else {
@@ -124,7 +123,6 @@ public class GCPlayer : IClicker, IInputReceiver {
 							tPiece.ScaleOut(0.2f, 1.5f);
 							piece.MoveToXZ(tNode, Drop);
 							GameManager.Instance.GameState.Place();
-							//piece.Compute(this); //Experimental
 						}
 					}
 				}

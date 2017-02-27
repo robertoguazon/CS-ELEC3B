@@ -14,64 +14,80 @@ public enum MovementType {
 
 public abstract class Movement : ScriptableObject {
 
-	
+	protected GCPlayer player;
+	protected Piece piece;
+
 	public event ComputeBound BoundComputations;
 
-	public Movement() {
+	public Movement(GCPlayer player, Piece piece) {
+		this.player = player;
+		this.piece = piece;
 		BoundComputations += ClearPossibles;
 	}
 
-	public void ClearPossibles(GCPlayer player, Piece piece) {
+	public bool IsTurn() {
+		if (player == GameManager.Instance.CurrentPlayer) {
+			return true;
+		}
+
+		return false;
+	}
+
+	public void ClearPossibles() {
 		piece.ClearPossibleEats();
 		piece.ClearPossibleMoves();
 	}
 
-	public bool ComputeMovePiece(GCPlayer player, Piece playerPiece, Node toCheckNode) {
+	public bool ComputeMovePiece(Node toCheckNode) {
 		if (toCheckNode == null) return false;
 		if (toCheckNode.EmptySpace) {
-			playerPiece.AddPossibleMoves(toCheckNode);
+			piece.AddPossibleMoves(toCheckNode);
 			return true;
 		}
 
 		return false;
 	}
 
-	public bool ComputeEatPiece(GCPlayer player, Piece playerPiece, Node toCheckNode) {
+	public bool ComputeEatPiece(Node toCheckNode) {
 		if (toCheckNode == null) return false;
-		if (!toCheckNode.EmptySpace && Rules.IsEnemy(playerPiece, toCheckNode.Piece)) {
-			AddToCheckOrEat(player, playerPiece, toCheckNode);
+		if (!toCheckNode.EmptySpace && Rules.IsEnemy(piece, toCheckNode.Piece)) {
+			AddToCheckOrEat(toCheckNode);
 			return true;
 		}
 
 		return false;
 	}
 
-	public bool ComputeMoveOrEatPiece(GCPlayer player, Piece playerPiece, Node toCheckNode) {
+	public bool ComputeMoveOrEatPiece(Node toCheckNode) {
 		if (toCheckNode == null) return false;
 		if (toCheckNode.EmptySpace) {
-			playerPiece.AddPossibleMoves(toCheckNode);
+			piece.AddPossibleMoves(toCheckNode);
 			return true;
-		} else if (Rules.IsEnemy(playerPiece, toCheckNode.Piece)) {
-			AddToCheckOrEat(player, playerPiece, toCheckNode);
+		} else if (Rules.IsEnemy(piece, toCheckNode.Piece)) {
+			AddToCheckOrEat(toCheckNode);
 			return true;
 		}
 
 		return false;
 	}
 
-	public virtual void Compute(GCPlayer player, Piece piece) {
+	public virtual void Compute() {
 		if (piece == null || piece.Node == null) return;
-		BoundComputations(player, piece);
+		BoundComputations();
 	}
 
 	//returns true if met an ally or enemy, this is for square and triangle, to cause a block
-	public bool ComputeMoveOrEatPieceEnemyAlly(GCPlayer player, Piece playerPiece, Node toCheckNode) {
+	public bool ComputeMoveOrEatPieceEnemyAlly(Node toCheckNode) {
 		if (toCheckNode == null) return false;
 		if (toCheckNode.EmptySpace) {
-			playerPiece.AddPossibleMoves(toCheckNode);
-		} else if (Rules.IsEnemy(playerPiece, toCheckNode.Piece)) {
-			AddToCheckOrEat(player, playerPiece, toCheckNode);
-			return true;
+			piece.AddPossibleMoves(toCheckNode);
+		} else if (Rules.IsEnemy(piece, toCheckNode.Piece)) {
+			AddToCheckOrEat(toCheckNode);
+			if (toCheckNode != toCheckNode.Piece.Node) {
+				return false;
+			} else {
+				return true;
+			}
 		} else {
 			return true;
 		}
@@ -79,11 +95,11 @@ public abstract class Movement : ScriptableObject {
 		return false;
 	}
 
-	private void AddToCheckOrEat(GCPlayer player, Piece playerPiece, Node toCheckNode) {
-		if (Rules.CheckKing(player, playerPiece, toCheckNode.Piece)) {
+	private void AddToCheckOrEat(Node toCheckNode) {
+		if (Rules.CheckKing(player, piece.Node, toCheckNode)) {
 			//playerPiece.Check = toCheckPiece;
 		} else {
-			playerPiece.AddPossibleEats(toCheckNode);
+			piece.AddPossibleEats(toCheckNode);
 		}
 	}
 }

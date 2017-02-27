@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class RookMovement : Movement, IPieceMovement {
 
-	public RookMovement() {
+	public RookMovement(GCPlayer player, Piece piece) : base(player,piece) {
 		BoundComputations += ComputeBound;
 	}
 
-	public void ComputeBound(GCPlayer player, Piece piece) {
+	public void ComputeBound() {
 		Node currNode = piece.Node;
 		int origRow = currNode.row;
 		int origCol = currNode.col;
@@ -18,32 +18,32 @@ public class RookMovement : Movement, IPieceMovement {
 		for (int up = 1; up + origRow < grid.Rows; up++) {
 			int newRow = up + origRow;
 			Node newNode = grid.GetNodeAt(newRow, origCol);
-			if (ComputeMoveOrEatPieceEnemyAlly(player,piece,newNode)) break;
+			if (ComputeMoveOrEatPieceEnemyAlly(newNode)) break;
 		}
 
 		//left
 		for (int left = -1; left + origCol >= 0; left--) {
 			int newCol = left + origCol;
 			Node newNode = grid.GetNodeAt(origRow, newCol);
-			if (ComputeMoveOrEatPieceEnemyAlly(player,piece,newNode)) break;
+			if (ComputeMoveOrEatPieceEnemyAlly(newNode)) break;
 		}
 
 		//right
 		for (int right = 1; right + origCol < grid.Cols; right++) {
 			int newCol = right + origCol;
 			Node newNode = grid.GetNodeAt(origRow, newCol);
-			if (ComputeMoveOrEatPieceEnemyAlly(player,piece,newNode)) break;
+			if (ComputeMoveOrEatPieceEnemyAlly(newNode)) break;
 		}
 
 		//down
 		for (int bot = -1; bot + origRow >= 0; bot--) {
 			int newRow = bot + origRow;
 			Node newNode = grid.GetNodeAt(newRow, origCol);
-			if (ComputeMoveOrEatPieceEnemyAlly(player,piece,newNode)) break;
+			if (ComputeMoveOrEatPieceEnemyAlly(newNode)) break;
 		}
 	}
 
-	public void Moved(Piece piece) {
+	public void Moved() {
 		
 	}
 

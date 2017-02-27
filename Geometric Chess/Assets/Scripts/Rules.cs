@@ -21,9 +21,9 @@ public class Rules : MonoBehaviour {
 		return false;
 	}
 
-	public static bool CheckKing(GCPlayer player, Piece checkedBy, Piece checkedPiece) {
-		if (checkedPiece.PieceType == PieceType.CROSS) {
-			GameManager.Instance.Opponent(player).CheckedBy = checkedBy;
+	public static bool CheckKing(GCPlayer player, Node checkedByNode, Node checkedNode) {
+		if (checkedNode.Piece.PieceType == PieceType.CROSS) {
+			GameManager.Instance.Opponent(player).CheckedBy = checkedByNode.Piece;
 			//checkedPiece.Node.HighlightCheck(); //Experimental
 			//checkedBy.Node.HighlightCheck(); //Experimental
 			return true;

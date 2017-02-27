@@ -200,9 +200,11 @@ public class Grid : MonoBehaviour {
 		}
 		pieceObject.GetComponent<Renderer>().material = mat;
 		player.AddPieces(pieceScript);
+		pieceScript.PieceMovement = Creator.CreatePieceMovement(pieceScript.MovementType, player, pieceScript);
 		
 		if(pieceScript) //if exists type then scale
 			pieceScript.ScaleIn(Random.Range(0f,1f),Random.Range(1f,2f),piece.transform.localScale);
+		
 
 		pieceScript.UpdateNode(pieceNode);
 	}

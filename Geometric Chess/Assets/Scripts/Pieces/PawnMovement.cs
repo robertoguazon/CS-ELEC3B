@@ -7,25 +7,30 @@ public class PawnMovement : Movement, IPieceMovement {
 	private bool moved = false;
 	private bool didSpecialMove = false;
 	private Node[] specialNodes = null;
-	private bool turn = true;
+	private bool turn;
+	
+	private GCPlayer p1;
+	private GCPlayer p2;
+	private Grid grid;
 
-	public PawnMovement() {
+	public PawnMovement(GCPlayer player, Piece piece) : base(player,piece) {
 		BoundComputations += ComputeBound;
 		GameManager.SwitchedEvent += OnSwitchEvent;
 		specialNodes = new Node[2];
+
+		p1 = p1 = GameManager.Instance.P1;
+		p2 = GameManager.Instance.P2;
+		grid = GameManager.Instance.Grid;
 	}
 
-	public void ComputeBound(GCPlayer player, Piece piece) {
+	public void ComputeBound() {
 		Node currNode = piece.Node;
 		int origRow = currNode.row;
 		int origCol = currNode.col;
 		
-		GCPlayer p1 = GameManager.Instance.P1;
-		GCPlayer p2 = GameManager.Instance.P2;
 		Node frontNode = null;
 		Node leftEatNode = null;
 		Node rightEatNode = null;
-		Grid grid = GameManager.Instance.Grid;
 
 		int toAdd = 0;
 		if (p1.Has(piece)) {
@@ -38,24 +43,24 @@ public class PawnMovement : Movement, IPieceMovement {
 		leftEatNode = grid.GetNodeAt(origRow + toAdd, origCol - 1);
 		rightEatNode = grid.GetNodeAt(origRow + toAdd, origCol + 1);
 
-		ComputeEatPiece(player, piece,leftEatNode);
-		ComputeEatPiece(player, piece, rightEatNode);
-		ComputeMovePiece(player, piece, frontNode);
+		ComputeEatPiece(leftEatNode);
+		ComputeEatPiece(rightEatNode);
+		ComputeMovePiece(frontNode);
 
 		if (!moved && !didSpecialMove) {
 			specialNodes[0] = frontNode;
 			specialNodes[1] = grid.GetNodeAt(origRow + toAdd * 2, origCol);
-			ComputeMovePiece(player,piece, specialNodes[1]);
+			ComputeMovePiece(specialNodes[1]);
 		}
 	}
 
 	public void OnSwitchEvent() {
-		turn = !turn;
-		if (!turn) return;
-
+		if (!IsTurn()) return;
+		if (specialNodes[0] == null || specialNodes[1] == null) return;
+		
 		if (moved && didSpecialMove) { // on next move
 			Debug.Log("released en passant" );
-			if (specialNodes[0] != null) {
+			if (specialNodes[0] != null && specialNodes[0].Piece == piece) {
 				specialNodes[0].Piece = null;
 			}
 			specialNodes[0] = null;
@@ -63,7 +68,7 @@ public class PawnMovement : Movement, IPieceMovement {
 		}
 	}
 
-	public void Moved(Piece piece) {
+	public void Moved() {
 		if (specialNodes[0] == null && specialNodes[1] == null) return;
 
 		if (!moved) {

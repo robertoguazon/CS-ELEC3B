@@ -7,18 +7,18 @@ public class QueenMovement : Movement, IPieceMovement {
 	private IPieceMovement rook;
 	private IPieceMovement bishop;
 
-	public QueenMovement() {
-		rook = new RookMovement();
-		bishop = new BishopMovement();
+	public QueenMovement(GCPlayer player, Piece piece) : base(player,piece) {
+		rook = new RookMovement(player, piece);
+		bishop = new BishopMovement(player, piece);
 		BoundComputations += rook.ComputeBound;
 		BoundComputations += bishop.ComputeBound;
 	}
 
-	public void ComputeBound(GCPlayer player, Piece piece) {
+	public void ComputeBound() {
 		//do nothing
 	}
 
-	public void Moved(Piece piece) {
+	public void Moved() {
 		
 	}
 }

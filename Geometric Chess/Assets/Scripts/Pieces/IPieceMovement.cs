@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public delegate void ComputeBound(GCPlayer player, Piece piece);
+public delegate void ComputeBound();
 
 public interface IPieceMovement {
 
 	event ComputeBound BoundComputations;
-	void ComputeBound(GCPlayer player, Piece piece);
-	void Compute(GCPlayer player, Piece piece);
-	void Moved(Piece piece);
+	void ComputeBound();
+	void Compute();
+	void Moved();
 }

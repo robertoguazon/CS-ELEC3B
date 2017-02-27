@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class NoMovement :  Movement, IPieceMovement {
 
-	public NoMovement() {
+	public NoMovement(GCPlayer player, Piece piece) : base(player,piece) {
 		BoundComputations += ComputeBound;
 	}
 
-	public void ComputeBound(GCPlayer player, Piece piece) {
+	public void ComputeBound() {
 		//do nothing
 	}
 
-	public void Moved(Piece piece) {
+	public void Moved() {
 		
 	}
 }

@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class KingMovement : Movement, IPieceMovement {
 
-	public KingMovement() {
+	public KingMovement(GCPlayer player, Piece piece) : base(player,piece) {
 		BoundComputations += ComputeBound;
 	}
 
-	public void ComputeBound(GCPlayer player, Piece piece) {
+	public void ComputeBound() {
 		Node currNode = piece.Node;
 		int origRow = currNode.row;
 		int origCol = currNode.col;
@@ -19,12 +19,12 @@ public class KingMovement : Movement, IPieceMovement {
 
 				int newRow = origRow + row;
 				int newCol = origCol + col;
-				ComputeMoveOrEatPiece(player, piece, GameManager.Instance.Grid.GetNodeAt(newRow, newCol));
+				ComputeMoveOrEatPiece(GameManager.Instance.Grid.GetNodeAt(newRow, newCol));
 			}
 		}
 	}
 
-	public void Moved(Piece piece) {
+	public void Moved() {
 		
 	}
 }

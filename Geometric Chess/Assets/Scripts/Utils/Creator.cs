@@ -4,23 +4,23 @@ using UnityEngine;
 
 public class Creator {
 
-	public static IPieceMovement CreatePieceMovement(MovementType movementType) {
+	public static IPieceMovement CreatePieceMovement(MovementType movementType, GCPlayer player, Piece piece) {
 		switch (movementType) {
 			case MovementType.KING:
-				return new KingMovement();
+				return new KingMovement(player, piece);
 			case MovementType.PAWN:
-				return new PawnMovement();
+				return new PawnMovement(player, piece);
 			case MovementType.ROOK:
-				return new RookMovement();
+				return new RookMovement(player, piece);
 			case MovementType.BISHOP:
-				return new BishopMovement();
+				return new BishopMovement(player, piece);
 			case MovementType.QUEEN:
-				return new QueenMovement();
+				return new QueenMovement(player, piece);
 			case MovementType.KNIGHT:
-				return new KnightMovement();
+				return new KnightMovement(player, piece);
 			case MovementType.NONE:
 			default:
-				return new NoMovement();
+				return new NoMovement(player, piece);
 		}
 	}
 }

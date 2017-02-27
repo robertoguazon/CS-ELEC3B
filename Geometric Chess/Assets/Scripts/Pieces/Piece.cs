@@ -22,12 +22,19 @@ public class Piece : Movable, IClickable {
 	[SerializeField]
 	private MovementType movementType;
 	
-
 	private IPieceMovement pieceMovement;
 	private bool dropping;
 
 	private List<Node> possibleMoves;
 	private List<Node> possibleEats;
+
+	public IPieceMovement PieceMovement {
+		get {return pieceMovement;}
+		set {
+			pieceMovement = value;
+		}
+	}
+
 	/*
 	private Piece check;
 
@@ -65,7 +72,6 @@ public class Piece : Movable, IClickable {
 
 	protected override void Start() {
 		base.Start();
-		pieceMovement = Creator.CreatePieceMovement(movementType); //TODO delete
 	}
 
 	public void HighlightPossibleMoves() {
@@ -142,12 +148,12 @@ public class Piece : Movable, IClickable {
 */
 
 	public void Compute(GCPlayer player) {
-		pieceMovement.Compute(player, this);
+		pieceMovement.Compute();
 	}
 
 	public override void MoveToXZ(Node node, Action finishCallback) {
 		base.MoveToXZ(node, finishCallback);
-		pieceMovement.Moved(this);
+		pieceMovement.Moved();
 	}
 
 	public string ChessCoords {

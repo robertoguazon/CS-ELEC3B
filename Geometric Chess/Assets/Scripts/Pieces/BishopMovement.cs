@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class BishopMovement : Movement, IPieceMovement {
 
-	public BishopMovement() {
+	public BishopMovement(GCPlayer player, Piece piece) : base(player,piece) {
 		BoundComputations += ComputeBound;
 	}
 
-	public void ComputeBound(GCPlayer player, Piece piece) {
+	public void ComputeBound() {
 		Node currNode = piece.Node;
 		int origRow = currNode.row;
 		int origCol = currNode.col;
@@ -20,7 +20,7 @@ public class BishopMovement : Movement, IPieceMovement {
 			int newRow = ru + origRow;
 			int newCol = ru + origCol;
 			Node newNode = grid.GetNodeAt(newRow, newCol);
-			if (ComputeMoveOrEatPieceEnemyAlly(player,piece,newNode)) break;
+			if (ComputeMoveOrEatPieceEnemyAlly(newNode)) break;
 		}
 
 		//left-up
@@ -28,7 +28,7 @@ public class BishopMovement : Movement, IPieceMovement {
 			int newRow = origRow - lu;
 			int newCol = lu + origCol;
 			Node newNode = grid.GetNodeAt(newRow, newCol);
-			if (ComputeMoveOrEatPieceEnemyAlly(player,piece,newNode)) break;
+			if (ComputeMoveOrEatPieceEnemyAlly(newNode)) break;
 		}
 
 		//right-bot
@@ -36,7 +36,7 @@ public class BishopMovement : Movement, IPieceMovement {
 			int newRow = origRow - rb;
 			int newCol = rb + origCol;
 			Node newNode = grid.GetNodeAt(newRow, newCol);
-			if (ComputeMoveOrEatPieceEnemyAlly(player,piece,newNode)) break;
+			if (ComputeMoveOrEatPieceEnemyAlly(newNode)) break;
 		}
 
 		//left-bot
@@ -44,11 +44,11 @@ public class BishopMovement : Movement, IPieceMovement {
 			int newRow = lb + origRow;
 			int newCol = lb + origCol;
 			Node newNode = grid.GetNodeAt(newRow, newCol);
-			if (ComputeMoveOrEatPieceEnemyAlly(player,piece,newNode)) break;
+			if (ComputeMoveOrEatPieceEnemyAlly(newNode)) break;
 		}
 	}
 	
-	public void Moved(Piece piece) {
+	public void Moved() {
 		
 	}
 }
