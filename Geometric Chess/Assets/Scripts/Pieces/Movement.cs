@@ -16,6 +16,7 @@ public abstract class Movement : ScriptableObject {
 
 	protected GCPlayer player;
 	protected Piece piece;
+	protected bool moved = false;
 
 	public event ComputeBound BoundComputations;
 
@@ -101,5 +102,17 @@ public abstract class Movement : ScriptableObject {
 		} else {
 			piece.AddPossibleEats(toCheckNode);
 		}
+	}
+
+	public bool IsMoved() {
+		return moved;
+	}
+
+	public virtual void Moved() {
+		if (!moved) {
+			moved = true;
+		}
+
+		Debug.Log("MOVED: " + moved);
 	}
 }

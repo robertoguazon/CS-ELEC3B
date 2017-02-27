@@ -12,7 +12,4 @@ public class NoMovement :  Movement, IPieceMovement {
 		//do nothing
 	}
 
-	public void Moved() {
-		
-	}
 }

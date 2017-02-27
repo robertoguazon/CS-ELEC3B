@@ -84,6 +84,21 @@ public class Grid {
 		return (player1C > player2C) ? 1 : (player1C < player2C) ? 2 : 0;
 	}
 
+	public void UpdateDiamondCount() {
+
+		//count all 3x3 diamond first
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < cols; j++) {
+				if (hasThreeThreeDiamond (1, i, j)) {
+					UIManagerScript.Instance.p1DCount++;
+				}
+				if (hasThreeThreeDiamond (2, i, j)) {
+					UIManagerScript.Instance.p2DCount++;
+				}
+			}
+		}
+	}
+
 	/*
 	* check if cell has 3x3 diamond
 	* */

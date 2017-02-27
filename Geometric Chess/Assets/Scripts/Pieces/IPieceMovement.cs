@@ -10,4 +10,5 @@ public interface IPieceMovement {
 	void ComputeBound();
 	void Compute();
 	void Moved();
+	bool IsMoved();
 }

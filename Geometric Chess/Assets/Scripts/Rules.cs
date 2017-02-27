@@ -32,6 +32,7 @@ public class Rules : MonoBehaviour {
 	}
 
 	//Modifies the move if modify = true
+	//not safe
 	public static bool IsCheckMove(GCPlayer player, Piece piece, Node tNode, bool modify) {
 		Node oldNode = piece.Node;
 		piece.UpdateNode(tNode);
@@ -48,6 +49,17 @@ public class Rules : MonoBehaviour {
 			piece.UpdateNode(oldNode);
 			player.CheckedBy = checkedBy;
 		}
+		return false;
+	}
+
+	public static bool IsGuardedMove(GCPlayer player, Piece piece, Node tNode) {
+		List<Piece> oppPieces = GameManager.Instance.Opponent(player).Pieces;
+		for (int i = 0; i < oppPieces.Count; i++) {
+			if (oppPieces[i].IsPossibleMove(tNode)) {
+				return true;
+			}
+		} 
+
 		return false;
 	}
 

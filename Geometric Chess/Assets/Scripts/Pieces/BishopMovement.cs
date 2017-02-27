@@ -48,7 +48,4 @@ public class BishopMovement : Movement, IPieceMovement {
 		}
 	}
 	
-	public void Moved() {
-		
-	}
 }

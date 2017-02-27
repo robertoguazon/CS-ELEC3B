@@ -79,7 +79,7 @@ public class GCPlayer : IClicker, IInputReceiver {
 				if (!piece.IsReady) break;
 				if (Click(gNode) && piece && Has(piece) && Click(piece)) {
 					piece.Pickup();
-					piece.Compute(this);
+					piece.Compute();
 					piece.HighlightPossibleMoves();
 					piece.HighlightPossibleEats();
 					GameManager.Instance.GameState.Grab();
@@ -103,7 +103,6 @@ public class GCPlayer : IClicker, IInputReceiver {
 				Piece tPiece = tNode.Piece;
 				if (tPiece == null) {
 					if (piece.IsPossibleMove(tNode)) {
-						Node oldNode = piece.Node;
 						if (Rules.IsCheckMove(this,piece,tNode, true)) {
 							Debug.Log("Move checked"); // do nothing
 						} else {
@@ -113,7 +112,6 @@ public class GCPlayer : IClicker, IInputReceiver {
 					}
 				} else {
 					if (piece.IsPossibleEat(tNode)) {
-						Node oldNode = piece.Node;
 						if (Rules.IsCheckEat(this,piece,tNode, true)) {
 							Debug.Log("Eat checked"); // do nothing
 						} else {
@@ -130,6 +128,13 @@ public class GCPlayer : IClicker, IInputReceiver {
 		}
 	}
 
+	public void ClearPiecesPossibles() {
+		for (int i = 0; i < pieces.Count; i++) {
+			pieces[i].ClearPossibleEats();
+			pieces[i].ClearPossibleMoves();
+		}
+	}
+
 	public void ClearCheck() {
 		if (checkedBy == null) return;
 		checkedBy = null;
@@ -139,7 +144,7 @@ public class GCPlayer : IClicker, IInputReceiver {
 	//the methods inside must be in order
 	private void Drop() {
 		piece.Drop();
-		piece.Compute(this);
+		piece.Compute();
 		GameManager.Instance.GameState.Release();
 		piece = null;
 	}
@@ -171,7 +176,7 @@ public class GCPlayer : IClicker, IInputReceiver {
 
 	public void ComputePieces() {
 		for (int i = 0; i < pieces.Count; i++) {
-			pieces[i].Compute(this);
+			pieces[i].Compute();
 		}
 	}
 }

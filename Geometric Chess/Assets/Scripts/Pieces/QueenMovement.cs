@@ -18,7 +18,5 @@ public class QueenMovement : Movement, IPieceMovement {
 		//do nothing
 	}
 
-	public void Moved() {
-		
-	}
+	
 }

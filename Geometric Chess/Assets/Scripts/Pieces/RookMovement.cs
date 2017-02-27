@@ -42,9 +42,4 @@ public class RookMovement : Movement, IPieceMovement {
 			if (ComputeMoveOrEatPieceEnemyAlly(newNode)) break;
 		}
 	}
-
-	public void Moved() {
-		
-	}
-
 }

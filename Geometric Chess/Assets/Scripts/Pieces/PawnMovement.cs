@@ -7,7 +7,6 @@ public class PawnMovement : Movement, IPieceMovement {
 	private bool moved = false;
 	private bool didSpecialMove = false;
 	private Node[] specialNodes = null;
-	private bool turn;
 	
 	private GCPlayer p1;
 	private GCPlayer p2;
@@ -18,7 +17,7 @@ public class PawnMovement : Movement, IPieceMovement {
 		GameManager.SwitchedEvent += OnSwitchEvent;
 		specialNodes = new Node[2];
 
-		p1 = p1 = GameManager.Instance.P1;
+		p1 = GameManager.Instance.P1;
 		p2 = GameManager.Instance.P2;
 		grid = GameManager.Instance.Grid;
 	}
@@ -68,7 +67,7 @@ public class PawnMovement : Movement, IPieceMovement {
 		}
 	}
 
-	public void Moved() {
+	public override void Moved() {
 		if (specialNodes[0] == null && specialNodes[1] == null) return;
 
 		if (!moved) {

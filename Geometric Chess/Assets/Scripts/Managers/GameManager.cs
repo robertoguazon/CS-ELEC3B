@@ -165,7 +165,9 @@ public class GameManager : Singleton<GameManager> {
 		}
 
 		currentPlayer.EnableInput();
-		SwitchedEvent(); //EXPERIMENTAL
+		if (SwitchedEvent != null) {
+			SwitchedEvent(); //EXPERIMENTAL
+		}
 
 		print("Turn of: " + currentPlayer.Type); //show on screen 
 	}

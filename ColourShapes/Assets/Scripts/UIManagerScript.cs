@@ -24,6 +24,9 @@ public class UIManagerScript : MonoBehaviour {
 	public GameObject player2Triangle1;
 	public GameObject player2Triangle2;
 
+	public Text p1DiamondCount;
+	public Text p2DiamondCount;
+
 	[HideInInspector] public int playerTurn;
 
 	public int numPlayer1Triangle1 = 0;
@@ -32,10 +35,17 @@ public class UIManagerScript : MonoBehaviour {
 	public int numPlayer2Triangle2 = 0;
 	public int player1Count = 0;
 	public int player2Count = 0;
+	public int p1DCount = 0;
+	public int p2DCount = 0;
 
 	void Start () {
 		if (Instance == null)
 			Instance = this;
+	}
+
+	public void UpdateDiamondCount() {
+		p1DiamondCount.text = "P1 diamonds: " + p1DCount;
+		p2DiamondCount.text = "P2 diamonds: " + p2DCount;
 	}
 
 	/*

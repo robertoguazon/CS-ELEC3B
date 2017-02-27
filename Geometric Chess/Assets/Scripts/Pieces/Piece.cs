@@ -48,6 +48,16 @@ public class Piece : Movable, IClickable {
 	}
 	*/
 
+	public bool IsMoved {
+		get {
+			if (pieceMovement != null) {
+				return pieceMovement.IsMoved();
+			}
+
+			return false;
+		}
+	}
+
 	public List<Node> PossibleMoves {
 		get { return possibleMoves;}
 	}
@@ -147,7 +157,7 @@ public class Piece : Movable, IClickable {
 	}
 */
 
-	public void Compute(GCPlayer player) {
+	public void Compute() {
 		pieceMovement.Compute();
 	}
 
@@ -173,8 +183,8 @@ public class Piece : Movable, IClickable {
 			node.Clear();
 		}
 		node = n;
-		if (n != null) {
-			n.Piece = this;
+		if (node != null) {
+			node.Piece = this;
 		}
 	}
 

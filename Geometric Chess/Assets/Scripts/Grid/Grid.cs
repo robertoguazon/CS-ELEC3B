@@ -163,7 +163,7 @@ public class Grid : MonoBehaviour {
 		SpawnPiece(new GridCoords(0,3),piecesPrefabs[4], p1T); //p1 hex
 		SpawnPiece(new GridCoords(7,3),piecesPrefabs[4], p2T); //p2 hex
 
-		//spawn rectangles - knights for sample
+		//spawn rectangles - knights for testing
 		SpawnPiece(new GridCoords(0,1),piecesPrefabs[5], p1T); //p1 rect
 		SpawnPiece(new GridCoords(0,6),piecesPrefabs[5], p1T); //p1 rect
 		SpawnPiece(new GridCoords(7,1),piecesPrefabs[5], p2T); //p2 rect
