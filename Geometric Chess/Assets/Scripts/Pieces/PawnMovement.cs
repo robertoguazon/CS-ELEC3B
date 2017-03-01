@@ -47,9 +47,11 @@ public class PawnMovement : Movement, IPieceMovement {
 		ComputeMovePiece(frontNode);
 
 		if (!moved && !didSpecialMove) {
-			specialNodes[0] = frontNode;
-			specialNodes[1] = grid.GetNodeAt(origRow + toAdd * 2, origCol);
-			ComputeMovePiece(specialNodes[1]);
+			if (frontNode.EmptySpace) {
+				specialNodes[0] = frontNode;
+				specialNodes[1] = grid.GetNodeAt(origRow + toAdd * 2, origCol);
+				ComputeMovePiece(specialNodes[1]);
+			}
 		}
 	}
 
