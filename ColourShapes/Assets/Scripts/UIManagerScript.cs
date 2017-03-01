@@ -24,9 +24,6 @@ public class UIManagerScript : MonoBehaviour {
 	public GameObject player2Triangle1;
 	public GameObject player2Triangle2;
 
-	public Text p1DiamondCount;
-	public Text p2DiamondCount;
-
 	[HideInInspector] public int playerTurn;
 
 	public int numPlayer1Triangle1 = 0;
@@ -42,12 +39,7 @@ public class UIManagerScript : MonoBehaviour {
 		if (Instance == null)
 			Instance = this;
 	}
-
-	public void UpdateDiamondCount() {
-		p1DiamondCount.text = "P1 diamonds: " + p1DCount;
-		p2DiamondCount.text = "P2 diamonds: " + p2DCount;
-	}
-
+	
 	/*
 	 * show Game Over Menu
 	 * */
@@ -63,8 +55,8 @@ public class UIManagerScript : MonoBehaviour {
 
 		player1Triangle1.GetComponent<Text> ().text = "3 x 3 Diamonds: " + numPlayer1Triangle1; 
 		player2Triangle1.GetComponent<Text> ().text = "3 x 3 Diamonds: " + numPlayer2Triangle1; 
-		player1Triangle2.GetComponent<Text> ().text = "";
-		player2Triangle2.GetComponent<Text> ().text = "";
+		player1Triangle2.GetComponent<Text> ().text = "2 x 2 Diamonds: " + numPlayer1Triangle2;
+		player2Triangle2.GetComponent<Text> ().text = "2 x 2 Diamonds: " + numPlayer2Triangle2; 
 
 		gameOverMenu.GetComponent<CanvasRenderer> ().SetAlpha (50);
 		gameOverMenu.SetActive (true);

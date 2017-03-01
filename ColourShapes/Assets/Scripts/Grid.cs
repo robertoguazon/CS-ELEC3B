@@ -71,10 +71,22 @@ public class Grid {
 			}
 		}
 
+		//count all 2x2
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < cols; j++) {
+				if (hasTwoTwoDiamond (1, i, j)) {
+					player1T2++;
+				}
+				if (hasTwoTwoDiamond (2, i, j)) {
+					player2T2++;
+				}
+			}
+		}
+
 		UIManagerScript.Instance.numPlayer1Triangle1 = player1T1;
-		//UIManagerScript.Instance.numPlayer1Triangle2 = player1T2;
+		UIManagerScript.Instance.numPlayer1Triangle2 = player1T2;
 		UIManagerScript.Instance.numPlayer2Triangle1 = player2T1;
-		//UIManagerScript.Instance.numPlayer2Triangle2 = player2T2;
+		UIManagerScript.Instance.numPlayer2Triangle2 = player2T2;
 
 		player1C = player1T1 * GameManagerScript.Instance.score2x3Triangle + player1T2 * GameManagerScript.Instance.score2x2Triangle;
 		player2C = player2T1 * GameManagerScript.Instance.score2x3Triangle + player2T2 * GameManagerScript.Instance.score2x2Triangle;
@@ -84,29 +96,14 @@ public class Grid {
 		return (player1C > player2C) ? 1 : (player1C < player2C) ? 2 : 0;
 	}
 
-	public void UpdateDiamondCount() {
-
-		//count all 3x3 diamond first
-		for (int i = 0; i < rows; i++) {
-			for (int j = 0; j < cols; j++) {
-				if (hasThreeThreeDiamond (1, i, j)) {
-					UIManagerScript.Instance.p1DCount++;
-				}
-				if (hasThreeThreeDiamond (2, i, j)) {
-					UIManagerScript.Instance.p2DCount++;
-				}
-			}
-		}
-	}
-
 	/*
-	* check if cell has 3x3 diamond
+	* check if cell has 2x2 diamond
 	* */
-	bool hasThreeThreeDiamond(int player, int row, int col) {
+	bool hasTwoTwoDiamond(int player, int row, int col) {
 		if (col - 1 < 0 || col + 1 >= cols) return false;
 		if (row - 1 < 0 || row + 1 >= rows) return false;
 
-		for (int r = -1; r < 1; r++) {
+		for (int r = -1; r <= 1; r++) {
 			for (int c = -1; c <= 1; c++) {
 				if (Mathf.Abs(r) == Mathf.Abs(c)) continue;
 
@@ -126,6 +123,50 @@ public class Grid {
 				grid[checkRow, checkCol] = 0;
 			}
 		}
+
+		//if not did not return false
+		return true;
+	}
+
+	/*
+	* check if cell has 3x3 diamond
+	* */
+	bool hasThreeThreeDiamond(int player, int row, int col) {
+		if (col - 1 < 0 || col + 1 >= cols) return false;
+		if (row - 1 < 0 || row + 1 >= rows) return false;
+		if (row - 2 < 0 || row + 2 >= rows) return false;
+		if (col - 2 < 0 || col + 2 >= cols) return false;
+
+		//check all nearby +1s and -1s
+		for (int r = -1; r <= 1; r++) {
+			for (int c = -1; c <= 1; c++) {
+				int checkRow = row + r;
+				int checkCol = col + c;
+				if (grid[checkRow, checkCol] != player) return false;
+			}
+		}
+		
+		//check all far  up, down, left,right
+		if (grid[row - 2, col] != player) return false;
+		if (grid[row + 2, col] != player) return false;
+		if (grid[row, col + 2] != player) return false;
+		if (grid[row, col + -2] != player) return false;
+
+		//reset everything to 0 if no error
+		for (int r = -1; r <= 1; r++) {
+			for (int c = -1; c <= 1; c++) {
+
+				int checkRow = row + r;
+				int checkCol = col + c;
+				grid[checkRow, checkCol] = 0;
+			}
+		}
+
+		//reset all far  up, down, left,right
+		grid[row - 2, col] = 0;
+		grid[row + 2, col] = 0;
+		grid[row, col + 2] = 0;
+		grid[row, col + -2] = 0;
 
 		//if not did not return false
 		return true;

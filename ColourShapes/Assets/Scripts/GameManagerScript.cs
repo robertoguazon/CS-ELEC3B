@@ -63,8 +63,6 @@ public class GameManagerScript : MonoBehaviour {
 							ShowChip (clicked);
 							numOfChips++;
 							changePlayer ();
-							grid.UpdateDiamondCount();
-							UIManagerScript.Instance.UpdateDiamondCount();
 						}
 
 						//check if player 1 has possible moves
