@@ -5,16 +5,16 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{74FC3285-4F1D-2E5C-E095-E46CBDABA1AB}</ProjectGuid>
+    <ProjectGuid>{BD224540-DFFC-2BD2-4948-EA646FE2ED68}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <AssemblyName>Assembly-CSharp-Editor</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
+    <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
     <CompilerResponseFile></CompilerResponseFile>
-    <UnityProjectType>Game:1</UnityProjectType>
+    <UnityProjectType>Editor:5</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.5.1f1</UnityVersion>
     <RootNamespace></RootNamespace>
@@ -55,26 +55,83 @@
     <Reference Include="UnityEngine">
       <HintPath>Library\UnityAssemblies\UnityEngine.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Advertisements">
+      <HintPath>Library\UnityAssemblies\UnityEditor.Advertisements.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>Library\UnityAssemblies\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.EditorTestsRunner">
+      <HintPath>Library\UnityAssemblies\UnityEditor.EditorTestsRunner.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.UI">
+      <HintPath>Library\UnityAssemblies\UnityEditor.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Networking">
       <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEditor.Networking">
+      <HintPath>Library\UnityAssemblies\UnityEditor.Networking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.PlaymodeTestsRunner">
+      <HintPath>Library\UnityAssemblies\UnityEditor.PlaymodeTestsRunner.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.PlaymodeTestsRunner">
       <HintPath>Library\UnityAssemblies\UnityEngine.PlaymodeTestsRunner.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.TreeEditor">
+      <HintPath>Library\UnityAssemblies\UnityEditor.TreeEditor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Analytics">
       <HintPath>Library\UnityAssemblies\UnityEngine.Analytics.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEditor.Analytics">
+      <HintPath>Library\UnityAssemblies\UnityEditor.Analytics.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.HoloLens">
+      <HintPath>Library\UnityAssemblies\UnityEditor.HoloLens.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.HoloLens">
       <HintPath>Library\UnityAssemblies\UnityEngine.HoloLens.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.VR">
+      <HintPath>Library\UnityAssemblies\UnityEditor.VR.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.VR">
       <HintPath>Library\UnityAssemblies\UnityEngine.VR.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEditor">
-      <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
+    <Reference Include="UnityEditor.Graphs">
+      <HintPath>Library\UnityAssemblies\UnityEditor.Graphs.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Android.Extensions">
+      <HintPath>Library\UnityAssemblies\UnityEditor.Android.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions">
+      <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Tizen.Extensions">
+      <HintPath>Library\UnityAssemblies\UnityEditor.Tizen.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.WebGL.Extensions">
+      <HintPath>Library\UnityAssemblies\UnityEditor.WebGL.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.LinuxStandalone.Extensions">
+      <HintPath>Library\UnityAssemblies\UnityEditor.LinuxStandalone.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.WindowsStandalone.Extensions">
+      <HintPath>Library\UnityAssemblies\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.OSXStandalone.Extensions">
+      <HintPath>Library\UnityAssemblies\UnityEditor.OSXStandalone.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
+      <HintPath>Library\UnityAssemblies\SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
@@ -84,40 +141,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Base Class\IClickable.cs" />
-    <Compile Include="Assets\Scripts\Base Class\IClicker.cs" />
-    <Compile Include="Assets\Scripts\Base Class\IHeapItem.cs" />
-    <Compile Include="Assets\Scripts\Base Class\IInput.cs" />
-    <Compile Include="Assets\Scripts\Base Class\Movable.cs" />
-    <Compile Include="Assets\Scripts\Base Class\Scalable.cs" />
-    <Compile Include="Assets\Scripts\Base Class\Singleton.cs" />
-    <Compile Include="Assets\Scripts\Camera\RotateCamera.cs" />
-    <Compile Include="Assets\Scripts\Camera\ZoomCamera.cs" />
-    <Compile Include="Assets\Scripts\GCPlayer.cs" />
-    <Compile Include="Assets\Scripts\GameState.cs" />
-    <Compile Include="Assets\Scripts\Grid\Grid.cs" />
-    <Compile Include="Assets\Scripts\Grid\GridCoords.cs" />
-    <Compile Include="Assets\Scripts\Grid\Node.cs" />
-    <Compile Include="Assets\Scripts\Managers\GameManager.cs" />
-    <Compile Include="Assets\Scripts\Managers\InputManager.cs" />
-    <Compile Include="Assets\Scripts\Pieces\BishopMovement.cs" />
-    <Compile Include="Assets\Scripts\Pieces\IPieceMovement.cs" />
-    <Compile Include="Assets\Scripts\Pieces\KingMovement.cs" />
-    <Compile Include="Assets\Scripts\Pieces\KnightMovement.cs" />
-    <Compile Include="Assets\Scripts\Pieces\Movement.cs" />
-    <Compile Include="Assets\Scripts\Pieces\NoMovement.cs" />
-    <Compile Include="Assets\Scripts\Pieces\PawnMovement.cs" />
-    <Compile Include="Assets\Scripts\Pieces\Piece.cs" />
-    <Compile Include="Assets\Scripts\Pieces\PieceData.cs" />
-    <Compile Include="Assets\Scripts\Pieces\QueenMovement.cs" />
-    <Compile Include="Assets\Scripts\Pieces\RookMovement.cs" />
-    <Compile Include="Assets\Scripts\Rules.cs" />
-    <Compile Include="Assets\Scripts\Utils\Converter.cs" />
-    <Compile Include="Assets\Scripts\Utils\Creator.cs" />
-    <Compile Include="Assets\Scripts\Utils\FileHelper.cs" />
-    <Compile Include="Assets\Scripts\Utils\Finder.cs" />
-    <Compile Include="Assets\Scripts\Utils\Scaler.cs" />
-    <Compile Include="Assets\Scripts\Utils\SimpleFPSCounter.cs" />
+    <ProjectReference Include="Geometric Chess.CSharp.csproj">
+      <Project>{74FC3285-4F1D-2E5C-E095-E46CBDABA1AB}</Project>
+      <Name>Geometric Chess.CSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="Geometric Chess.CSharp.Editor.Plugins.csproj">
+      <Project>{D8B715FB-82F3-364A-6917-FC57CDDF3807}</Project>
+      <Name>Geometric Chess.CSharp.Editor.Plugins</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\Editor\GridCoordsPropertyDrawer.cs" />
+    <Compile Include="Assets\Editor\temp\BoardEditor.cs" />
+    <Compile Include="Assets\Editor\temp\ChessboardMaker.cs" />
+    <Compile Include="Assets\Editor\temp\GUIChessboardMaker.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

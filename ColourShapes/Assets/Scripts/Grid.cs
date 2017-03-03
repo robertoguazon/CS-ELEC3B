@@ -71,14 +71,16 @@ public class Grid {
 			}
 		}
 
-		//count all 2x2
-		for (int i = 0; i < rows; i++) {
-			for (int j = 0; j < cols; j++) {
-				if (hasTwoTwoDiamond (1, i, j)) {
-					player1T2++;
-				}
-				if (hasTwoTwoDiamond (2, i, j)) {
-					player2T2++;
+		if (player1T1 == player2T1) {
+			//count all 2x2
+			for (int i = 0; i < rows; i++) {
+				for (int j = 0; j < cols; j++) {
+					if (hasTwoTwoDiamond (1, i, j)) {
+						player1T2++;
+					}
+					if (hasTwoTwoDiamond (2, i, j)) {
+						player2T2++;
+					}
 				}
 			}
 		}

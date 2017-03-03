@@ -9,4 +9,8 @@ public struct GridCoords {
 		this.row = row;
 		this.col = col;
 	}
+
+	public override string ToString() {
+		return "coords: " + row + ", " + col; 
+	}
 }

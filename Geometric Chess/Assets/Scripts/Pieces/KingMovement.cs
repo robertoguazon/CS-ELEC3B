@@ -117,14 +117,16 @@ public class KingMovement : Movement, IPieceMovement {
 
 	public override void Moved() {
 		if (rooks[0] == null && rooks[1] == null) return;
-		if (!moved && !didCastling) {
+		if (!moved) {
 			moved = true;
-			if (specialNodes[0,0] != null && piece.Node == specialNodes[0,1]) {
-				rooks[0].MoveToXZ(specialNodes[0,0], UpdateLeftRook);
-				didCastling = true;
-			} else if(specialNodes[1,0] != null && piece.Node == specialNodes[1,1]) {
-				rooks[1].MoveToXZ(specialNodes[1,0], UpdateRightRook);
-				didCastling = true;
+			if (!didCastling) {
+				if (specialNodes[0,0] != null && piece.Node == specialNodes[0,1]) {
+					rooks[0].MoveToXZ(specialNodes[0,0], UpdateLeftRook);
+					didCastling = true;
+				} else if(specialNodes[1,0] != null && piece.Node == specialNodes[1,1]) {
+					rooks[1].MoveToXZ(specialNodes[1,0], UpdateRightRook);
+					didCastling = true;
+				}
 			}
 		}
 	}
