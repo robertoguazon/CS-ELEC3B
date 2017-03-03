@@ -137,6 +137,7 @@ public class Grid : MonoBehaviour {
 		PlayerType p1T = PlayerType.P1;
 		PlayerType p2T = PlayerType.P2;
 
+		/*----------------------CHESS sample
 		//spawn circles
 		for (int i = 0; i <= 7; i++) {
 			SpawnPiece(new GridCoords(1,i),piecesPrefabs[2], p1T); // p1 circ
@@ -168,7 +169,34 @@ public class Grid : MonoBehaviour {
 		SpawnPiece(new GridCoords(0,6),piecesPrefabs[5], p1T); //p1 rect
 		SpawnPiece(new GridCoords(7,1),piecesPrefabs[5], p2T); //p2 rect
 		SpawnPiece(new GridCoords(7,6),piecesPrefabs[5], p2T); //p2 rect
+		*/
 
+
+		//------------------GC
+		for (int i = 1; i <= 6; i++) {
+			SpawnPiece(new GridCoords(2,i),piecesPrefabs[2], p1T); // p1 circ
+			SpawnPiece(new GridCoords(5,i),piecesPrefabs[2], p2T); // p2 circ
+		}
+
+		//spawn boxes
+		SpawnPiece(new GridCoords(1,1),piecesPrefabs[0], p1T); //p1 box
+		SpawnPiece(new GridCoords(1,6),piecesPrefabs[0], p1T); //p1 box
+		SpawnPiece(new GridCoords(6,1),piecesPrefabs[0], p2T); //p2 box
+		SpawnPiece(new GridCoords(6,6),piecesPrefabs[0], p2T); //p2 box
+
+		//spawn triangles
+		SpawnPiece(new GridCoords(1,2),piecesPrefabs[1], 180, p1T); //p1 tri
+		SpawnPiece(new GridCoords(1,5),piecesPrefabs[1], 180, p1T); //p1 tri
+		SpawnPiece(new GridCoords(6,2),piecesPrefabs[1], p2T); //p2 tri
+		SpawnPiece(new GridCoords(6,5),piecesPrefabs[1], p2T); //p2 tri
+
+		//spawn crosses
+		SpawnPiece(new GridCoords(1,4),piecesPrefabs[3], p1T); //p1 cross
+		SpawnPiece(new GridCoords(6,4),piecesPrefabs[3], p2T); //p2 cross
+
+		//spawn hexagons
+		SpawnPiece(new GridCoords(1,3),piecesPrefabs[4], p1T); //p1 hex
+		SpawnPiece(new GridCoords(6,3),piecesPrefabs[4], p2T); //p2 hex
 
 
 

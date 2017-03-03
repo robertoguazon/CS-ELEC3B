@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class KingMovement : Movement, IPieceMovement {
 
-	private bool moved = false;
 	private bool didCastling = false;
 	private Node[,] specialNodes;
 	private Piece[] rooks;

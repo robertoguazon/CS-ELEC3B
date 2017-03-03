@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PawnMovement : Movement, IPieceMovement {
-
-	private bool moved = false;
+	
 	private bool didSpecialMove = false;
 	private Node[] specialNodes = null;
 	

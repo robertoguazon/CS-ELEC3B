@@ -18,6 +18,10 @@ public class Creator {
 				return new QueenMovement(player, piece);
 			case MovementType.KNIGHT:
 				return new KnightMovement(player, piece);
+			case MovementType.CIRCLE:
+				return new CircleMovement(player, piece);
+			case MovementType.CROSS:
+				return new CrossMovement(player, piece);
 			case MovementType.NONE:
 			default:
 				return new NoMovement(player, piece);

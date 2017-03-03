@@ -22,6 +22,10 @@ public class Scalable : MonoBehaviour {
 		get {
 			return ready;
 		}
+
+		set {
+			ready = value;
+		}
 	}
 
 	public void SetMaterialOriginal() {

@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum MovementType {
-	NONE,
-	KING,
-	PAWN,
-	ROOK,
-	BISHOP,
-	QUEEN,
-	KNIGHT,
+	NONE = 0,
+	KING = 1,
+	PAWN = 2,
+	ROOK = 3,
+	BISHOP = 4,
+	QUEEN = 5,
+	KNIGHT = 6,
+	CIRCLE = 7,
+	CROSS = 8,
 }
 
 public abstract class Movement : ScriptableObject {

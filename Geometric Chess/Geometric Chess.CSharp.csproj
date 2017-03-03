@@ -101,6 +101,8 @@
     <Compile Include="Assets\Scripts\Managers\GameManager.cs" />
     <Compile Include="Assets\Scripts\Managers\InputManager.cs" />
     <Compile Include="Assets\Scripts\Pieces\BishopMovement.cs" />
+    <Compile Include="Assets\Scripts\Pieces\CircleMovement.cs" />
+    <Compile Include="Assets\Scripts\Pieces\CrossMovement.cs" />
     <Compile Include="Assets\Scripts\Pieces\IPieceMovement.cs" />
     <Compile Include="Assets\Scripts\Pieces\KingMovement.cs" />
     <Compile Include="Assets\Scripts\Pieces\KnightMovement.cs" />

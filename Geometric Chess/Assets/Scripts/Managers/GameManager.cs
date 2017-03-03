@@ -26,8 +26,8 @@ public class GameManager : Singleton<GameManager> {
 	public delegate void SwitchedPlayer();
 	public static event SwitchedPlayer SwitchedEvent;
 
-	private GCPlayer p1;
-	private GCPlayer p2;
+	private GCPlayer p1 = new GCPlayer(PlayerType.P1);
+	private GCPlayer p2 = new GCPlayer(PlayerType.P2);
 	private GCPlayer currentPlayer;
 
 	private GameState gameState;
@@ -98,8 +98,6 @@ public class GameManager : Singleton<GameManager> {
 
 	void Awake() {
 		_destroyOnLoad = destroyOnLoad;
-		p1 = new GCPlayer(PlayerType.P1);
-		p2 = new GCPlayer(PlayerType.P2);
 		gameState = new GameState();
 	}
 
