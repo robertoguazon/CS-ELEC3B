@@ -1,0 +1,183 @@
+fileFormatVersion: 2
+guid: 0d8bf5bc900ac3045862d1860bfda1b2
+timeCreated: 1488694753
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: arm.L
+    100002: arm.R
+    100004: body
+    100006: foot.L
+    100008: foot.L_end
+    100010: foot.R
+    100012: foot.R_end
+    100014: hand.L
+    100016: hand.L_end
+    100018: hand.R
+    100020: hand.R_end
+    100022: head
+    100024: head_end
+    100026: leg.L
+    100028: leg.R
+    100030: Sparty
+    100032: sparty bones
+    100034: //RootNode
+    100036: torso
+    400000: arm.L
+    400002: arm.R
+    400004: body
+    400006: foot.L
+    400008: foot.L_end
+    400010: foot.R
+    400012: foot.R_end
+    400014: hand.L
+    400016: hand.L_end
+    400018: hand.R
+    400020: hand.R_end
+    400022: head
+    400024: head_end
+    400026: leg.L
+    400028: leg.R
+    400030: Sparty
+    400032: sparty bones
+    400034: //RootNode
+    400036: torso
+    4300000: Sparty
+    7400000: Sparty_walking
+    9500000: //RootNode
+    13700000: Sparty
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Sparty_walking
+      takeName: sparty bones|Walk
+      firstFrame: 0
+      lastFrame: 64
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Sparty
+        weight: 1
+      - path: sparty bones
+        weight: 1
+      - path: sparty bones/body
+        weight: 1
+      - path: sparty bones/body/torso
+        weight: 1
+      - path: sparty bones/body/torso/arm.L
+        weight: 1
+      - path: sparty bones/body/torso/arm.L/hand.L
+        weight: 1
+      - path: sparty bones/body/torso/arm.L/hand.L/hand.L_end
+        weight: 1
+      - path: sparty bones/body/torso/arm.R
+        weight: 1
+      - path: sparty bones/body/torso/arm.R/hand.R
+        weight: 1
+      - path: sparty bones/body/torso/arm.R/hand.R/hand.R_end
+        weight: 1
+      - path: sparty bones/body/torso/head
+        weight: 1
+      - path: sparty bones/body/torso/head/head_end
+        weight: 1
+      - path: sparty bones/body/torso/leg.L
+        weight: 1
+      - path: sparty bones/body/torso/leg.L/foot.L
+        weight: 1
+      - path: sparty bones/body/torso/leg.L/foot.L/foot.L_end
+        weight: 1
+      - path: sparty bones/body/torso/leg.R
+        weight: 1
+      - path: sparty bones/body/torso/leg.R/foot.R
+        weight: 1
+      - path: sparty bones/body/torso/leg.R/foot.R/foot.R_end
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
