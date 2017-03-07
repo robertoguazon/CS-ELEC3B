@@ -89,6 +89,7 @@
     <Compile Include="Assets\Scripts\Base Classes\Singleton.cs" />
     <Compile Include="Assets\Scripts\Camera\FollowTarget.cs" />
     <Compile Include="Assets\Scripts\Coin.cs" />
+    <Compile Include="Assets\Scripts\Managers\GameManager.cs" />
     <Compile Include="Assets\Scripts\Managers\InputManager.cs" />
     <Compile Include="Assets\Scripts\Utils\MathUtil.cs" />
   </ItemGroup>

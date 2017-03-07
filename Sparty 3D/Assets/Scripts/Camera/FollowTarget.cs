@@ -9,11 +9,15 @@ public class FollowTarget : InputReceiver {
 
 	private Vector3 offset;
 	private float offsetRotY;
+	private float addRotY;
+	private Transform targetTransform;
 
 	// Use this for initialization
 	void Start () {
-		offset = transform.position - target.transform.position;
-		offsetRotY = transform.eulerAngles.y - target.transform.eulerAngles.y;
+		targetTransform = target.transform;
+
+		offset = transform.position - targetTransform.position;
+		offsetRotY = transform.eulerAngles.y - 0;
 	}
 	
 	// Update is called once per frame
@@ -22,9 +26,28 @@ public class FollowTarget : InputReceiver {
 	}
 
 	void LateUpdate() {
-		transform.position = target.transform.position + offset;
-		transform.position = MathUtil.RotatePointAroundPivot(transform.position, target.transform.position, Vector3.up * (target.transform.eulerAngles.y + offsetRotY));
-		transform.LookAt(target.transform.position);
+		transform.position = targetTransform.position + offset;
+		transform.position = MathUtil.RotatePointAroundPivot(transform.position, targetTransform.position, Vector3.up * (addRotY + offsetRotY));
+		transform.LookAt(targetTransform.position);
+	}
+
+	protected override void OnInputEvent(InputActionType iat) {
+		switch (iat) {
+			case InputActionType.ROTATE_Y_RIGHT:
+				addRotY += rotateAngleSpeed * Time.deltaTime;
+				break;
+			case InputActionType.ROTATE_Y_LEFT:
+				addRotY += -rotateAngleSpeed * Time.deltaTime;
+				break;
+		}
+	}
+
+	protected override void OnEnable() {
+		InputManager.LateInputEvent += OnInputEvent;
+	}
+
+	protected override void OnDisable() {
+		InputManager.LateInputEvent -= OnInputEvent;
 	}
 	
 }
