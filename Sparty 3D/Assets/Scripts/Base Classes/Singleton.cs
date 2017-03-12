@@ -9,22 +9,28 @@ public class Singleton<T> : MonoBehaviour where T : Component {
 
 	void Awake() {
 		_destroyOnLoad = destroyOnLoad;
+		if (!_destroyOnLoad) {
+			DontDestroyOnLoad(gameObject);
+		}
 	}
 
 	private static T instance;
 
 	public static T Instance {
 		get {
-				T foundObject = FindObjectOfType<T>();
+				CheckInstance();
 
-				if (instance == null) {
-					instance = foundObject;
-				} else if (instance != foundObject) {
-					Destroy(foundObject);
-				}
-
-				if (!_destroyOnLoad) DontDestroyOnLoad(foundObject);
 				return instance;
 			}
+	}
+
+	static void CheckInstance() {
+		T foundObject = FindObjectOfType<T>();
+
+		if (instance == null) {
+			instance = foundObject;
+		} else if (instance != foundObject) {
+			Destroy(foundObject);
+		}
 	}
 }

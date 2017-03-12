@@ -7,23 +7,26 @@ public class PlayerController : InputReceiver {
 	public float moveSpeed = 3f;
 	public float rotateSpeed = 3f;
 	public float jumpStrength = 5f;
+	public LayerMask groundsMask;
 
 	private bool walking = false;
+	private bool jump = false;
+	private float distToGround;
 	private Rigidbody rb;
 	private Animator anim;
 
 	private Vector3 moveVector;
 	private Transform mainCamTrans;
 
-	private int points = 0;
-	private int coints = 0;
 	// Use this for initialization
 	void Start () {
 		rb = GetComponent<Rigidbody>();
 		anim = GetComponent<Animator>();
 
 		moveVector = Vector3.zero;
-		mainCamTrans = GameManager.Instance.mainCamera.transform;
+		mainCamTrans = GameManager.Instance.MainCamera.transform;
+
+		distToGround = GetComponent<Collider>().bounds.extents.y;
 	}
 	
 	// Update is called once per frame
@@ -32,9 +35,16 @@ public class PlayerController : InputReceiver {
 	}
 
 	void FixedUpdate() {
-		if (moveVector.magnitude > 1) moveVector.Normalize();
+		if (jump) {
+			jump = false;
+			if (IsGrounded()) {
+				Jump();
+			}
+		}
 
-		moveVector = RotateWithView();
+		FaceOnMovement();
+		if (moveVector.magnitude > 1) moveVector.Normalize();
+		moveVector = RotateWithView(moveVector);
 		rb.AddForce(moveVector * moveSpeed);
 		moveVector = Vector3.zero;
 	}
@@ -94,23 +104,22 @@ public class PlayerController : InputReceiver {
 				walking = false;
 				break;
 			case InputActionType.JUMP:
-				Jump();
+				jump = true;
 				break;
 		}
 
 		anim.SetBool("Walking",walking);
 	}
 
-	Vector3 RotateWithView() {
+	Vector3 RotateWithView(Vector3 view) {
 		if (mainCamTrans == null) {
 			mainCamTrans = GameManager.Instance.mainCamera.transform;
 		}
-		if (mainCamTrans == null) return moveVector;
+		if (mainCamTrans == null) return view;
 
-		Vector3 dir = mainCamTrans.TransformDirection(moveVector);
+		Vector3 dir = mainCamTrans.TransformDirection(view);
 		dir.Set(dir.x, 0, dir.z);
-		return dir.normalized * moveVector.magnitude;
-
+		return dir.normalized * view.magnitude;
 	}
 
 	void Jump() {
@@ -120,13 +129,22 @@ public class PlayerController : InputReceiver {
 
 	void OnTriggerEnter(Collider other) {
 		if (other.tag == "coin") {
-			Coin coinScript = other.GetComponent<Coin>();
-			points += coinScript.points;
-			coints++;
+			GameManager.Instance.GrabCoin(other.gameObject);
 			Destroy(other.gameObject);
-
-			Debug.Log("Points: " + points);
+		} else if (other.tag == "apple") {
+			if (GameManager.Instance.CheckApple(other.gameObject)) {
+				Destroy(other.gameObject);
+			}
 		}
 	}
+
+	void FaceOnMovement() {
+		if (moveVector.x == 0 && moveVector.z == 0) return;
+		Vector3 newFaceAngle = RotateWithView(moveVector);
+		transform.rotation = Quaternion.LookRotation(newFaceAngle);
+	}
 	
+	bool IsGrounded() {
+		return Physics.Raycast(transform.position, -Vector3.up, distToGround + 0.1f, groundsMask);
+	}
 }

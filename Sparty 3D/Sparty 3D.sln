@@ -1,5 +1,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sparty 3D.CSharp.Plugins", "Sparty 3D.CSharp.Plugins.csproj", "{DD2DB99D-3B39-DD86-387A-9DB9AA6E1EA6}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sparty 3D.CSharp", "Sparty 3D.CSharp.csproj", "{DEB7631F-D7CD-55D6-5BE6-161653A1F222}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sparty 3D.CSharp.Editor.Plugins", "Sparty 3D.CSharp.Editor.Plugins.csproj", "{0A8614F9-F2E0-2031-1EFF-FCA0B83C59DA}"
@@ -10,6 +12,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DD2DB99D-3B39-DD86-387A-9DB9AA6E1EA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD2DB99D-3B39-DD86-387A-9DB9AA6E1EA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD2DB99D-3B39-DD86-387A-9DB9AA6E1EA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD2DB99D-3B39-DD86-387A-9DB9AA6E1EA6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DEB7631F-D7CD-55D6-5BE6-161653A1F222}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DEB7631F-D7CD-55D6-5BE6-161653A1F222}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DEB7631F-D7CD-55D6-5BE6-161653A1F222}.Release|Any CPU.ActiveCfg = Release|Any CPU
