@@ -99,6 +99,7 @@ public class GameManager : Singleton<GameManager> {
 		guiCoins++;
 		guiPoints += coinPoints;
 		UpdateGUICoins();
+		UpdateGUIPoints();
 	}
 
 	public void UpdateGUICoins() {

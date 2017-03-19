@@ -71,24 +71,10 @@ public class Grid {
 			}
 		}
 
-		if (player1T1 == player2T1) {
-			//count all 2x2
-			for (int i = 0; i < rows; i++) {
-				for (int j = 0; j < cols; j++) {
-					if (hasTwoTwoDiamond (1, i, j)) {
-						player1T2++;
-					}
-					if (hasTwoTwoDiamond (2, i, j)) {
-						player2T2++;
-					}
-				}
-			}
-		}
-
 		UIManagerScript.Instance.numPlayer1Triangle1 = player1T1;
-		UIManagerScript.Instance.numPlayer1Triangle2 = player1T2;
+		//UIManagerScript.Instance.numPlayer1Triangle2 = player1T2;
 		UIManagerScript.Instance.numPlayer2Triangle1 = player2T1;
-		UIManagerScript.Instance.numPlayer2Triangle2 = player2T2;
+		//UIManagerScript.Instance.numPlayer2Triangle2 = player2T2;
 
 		player1C = player1T1 * GameManagerScript.Instance.score2x3Triangle + player1T2 * GameManagerScript.Instance.score2x2Triangle;
 		player2C = player2T1 * GameManagerScript.Instance.score2x3Triangle + player2T2 * GameManagerScript.Instance.score2x2Triangle;
@@ -98,25 +84,78 @@ public class Grid {
 		return (player1C > player2C) ? 1 : (player1C < player2C) ? 2 : 0;
 	}
 
+	void DrawLines(int[,] points, int player) {
+		GameObject checker = new GameObject("lines");
+		LineRenderer lr = checker.AddComponent<LineRenderer>();
+		lr.material = new Material(Shader.Find("Sprites/Default"));
+
+		Color color = Color.green; //default
+
+		if (player == 1) {
+			color = new Color(0.5f,0,0);
+		} else {
+			color = new Color(0,0,0.5f);
+		}
+
+		lr.startColor = color;
+		lr.endColor = color;
+
+		lr.sortingLayerName = "GUI";
+		lr.startWidth = 0.1f;
+		lr.endWidth = 0.1f;
+
+		int length = points.GetLength(0);
+		lr.numPositions = length + 1;
+
+		int halfLength = length / 2;
+		int lCounter = 0;
+		for (int i = 0; i < halfLength; i++) {
+			AddToLineRenderer(lr, lCounter, points[i,0], points[i,1]);
+			lCounter++;
+		}
+
+		for (int i = length - 1; i >= halfLength; i--) {
+			Debug.Log(i);
+			AddToLineRenderer(lr, lCounter, points[i,0], points[i,1]);
+			lCounter++;
+		}
+		AddToLineRenderer(lr, lCounter, points[0,0], points[0,1]);
+		lCounter++;
+	}
+
+	void AddToLineRenderer(LineRenderer lr, int index, int row, int col) {
+		GameObject curr = GameManagerScript.Instance.chips[row * cols + col];
+		lr.SetPosition(index, curr.transform.position);
+	}
+
 	/*
-	* check if cell has 2x2 diamond
+	* check if cell has 3x3 diamond
 	* */
-	bool hasTwoTwoDiamond(int player, int row, int col) {
+	bool hasThreeThreeDiamond(int player, int row, int col) {
 		if (col - 1 < 0 || col + 1 >= cols) return false;
 		if (row - 1 < 0 || row + 1 >= rows) return false;
+		if (grid[row,col] != player) return false;
+
+		int [,] points = new int[4,2];
+		int pCounter = 0;
 
 		for (int r = -1; r <= 1; r++) {
 			for (int c = -1; c <= 1; c++) {
 				if (Mathf.Abs(r) == Mathf.Abs(c)) continue;
-
+				
 				int checkRow = row + r;
 				int checkCol = col + c;
 				if (grid[checkRow, checkCol] != player) return false;
+				else {
+					points[pCounter,0] = checkRow;
+					points[pCounter,1] = checkCol;
+					pCounter++;
+				}
 			}
 		}
 
 		//reset everything to 0 if no error
-		for (int r = -1; r < 1; r++) {
+		for (int r = -1; r <= 1; r++) {
 			for (int c = -1; c <= 1; c++) {
 				if (Mathf.Abs(r) == Mathf.Abs(c)) continue;
 
@@ -125,15 +164,17 @@ public class Grid {
 				grid[checkRow, checkCol] = 0;
 			}
 		}
+		grid[row,col] = 0;
 
+		DrawLines(points,player);
 		//if not did not return false
 		return true;
 	}
 
 	/*
-	* check if cell has 3x3 diamond
+	* check if cell has 5x5 diamond
 	* */
-	bool hasThreeThreeDiamond(int player, int row, int col) {
+	bool hasFiveFiveDiamond(int player, int row, int col) {
 		if (col - 1 < 0 || col + 1 >= cols) return false;
 		if (row - 1 < 0 || row + 1 >= rows) return false;
 		if (row - 2 < 0 || row + 2 >= rows) return false;

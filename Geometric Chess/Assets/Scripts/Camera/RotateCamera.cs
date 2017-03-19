@@ -61,7 +61,8 @@ public class RotateCamera : MonoBehaviour, IInputReceiver {
 	private void RotateHorizontal(bool left, float yAngle) {
 		float dir = 1;
 		if (! left) dir = -1;
-		transform.RotateAround(target.position, Vector3.up, yAngle * dir);
+		
+		transform.RotateAround(target.position, Vector3.up, (yAngle * dir));
 	}
 
 	private void RotateVertical(bool up, float xAngle) {

@@ -42,6 +42,18 @@ public class GameManagerScript : MonoBehaviour {
 	}
 
 	void Update () {
+
+#if UNITY_EDITOR
+		if (Input.GetKeyUp(KeyCode.Q)) {	//press Q to fill all remaining with player1
+			fillPlayer = 1;
+			Instance.fillEmptyCells ();
+		} else if (Input.GetKeyUp(KeyCode.W)) { // press W to fill all remaining with player2
+			fillPlayer = 2;
+			Instance.fillEmptyCells ();
+		} else if (Input.GetKeyUp(KeyCode.Space)) { //press space to change player
+			Instance.changePlayer();
+		}
+#endif
 		
 		//checks on mouse click
 		if (Input.GetMouseButtonDown (0) && !isPaused) {

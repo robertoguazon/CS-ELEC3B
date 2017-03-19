@@ -6,6 +6,5 @@ public class PlayButtonScript : MonoBehaviour {
 
 	public void OnClick(){
 		SceneManager.LoadScene ("LevelSelect");
-
 	}
 }

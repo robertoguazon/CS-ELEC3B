@@ -55,8 +55,8 @@ public class UIManagerScript : MonoBehaviour {
 
 		player1Triangle1.GetComponent<Text> ().text = "3 x 3 Diamonds: " + numPlayer1Triangle1; 
 		player2Triangle1.GetComponent<Text> ().text = "3 x 3 Diamonds: " + numPlayer2Triangle1; 
-		player1Triangle2.GetComponent<Text> ().text = "2 x 2 Diamonds: " + numPlayer1Triangle2;
-		player2Triangle2.GetComponent<Text> ().text = "2 x 2 Diamonds: " + numPlayer2Triangle2; 
+		player1Triangle2.GetComponent<Text> ().text = "";
+		player2Triangle2.GetComponent<Text> ().text = "";
 
 		gameOverMenu.GetComponent<CanvasRenderer> ().SetAlpha (50);
 		gameOverMenu.SetActive (true);
