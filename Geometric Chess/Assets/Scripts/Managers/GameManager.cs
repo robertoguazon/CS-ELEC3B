@@ -142,10 +142,10 @@ public class GameManager : Singleton<GameManager> {
 
 		if (currentPlayer == p2) {
 			currentPlayer = p1;
-			mainCamera.GetComponent<RotateCamera>().SwitchCamera(PlayerType.P1);
+			mainCamera.GetComponent<SwitchAngle>().SwitchCamera(PlayerType.P1);
 		} else if (currentPlayer == p1) {
 			currentPlayer = p2;
-			mainCamera.GetComponent<RotateCamera>().SwitchCamera(PlayerType.P2);
+			mainCamera.GetComponent<SwitchAngle>().SwitchCamera(PlayerType.P2);
 		} else {
 			currentPlayer = p1;
 		}

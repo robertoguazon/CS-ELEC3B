@@ -92,6 +92,7 @@
     <Compile Include="Assets\Scripts\Base Class\Scalable.cs" />
     <Compile Include="Assets\Scripts\Base Class\Singleton.cs" />
     <Compile Include="Assets\Scripts\Camera\RotateCamera.cs" />
+    <Compile Include="Assets\Scripts\Camera\SwitchAngle.cs" />
     <Compile Include="Assets\Scripts\Camera\ZoomCamera.cs" />
     <Compile Include="Assets\Scripts\GCPlayer.cs" />
     <Compile Include="Assets\Scripts\GameState.cs" />

@@ -11,26 +11,26 @@ public class RotateCamera : MonoBehaviour, IInputReceiver {
 	[SerializeField]
 	private float vertAngleMove;
 
-	[SerializeField]
-	private float minVertAngle;
-	[SerializeField]
-	private float maxVertAngle;
+	private float lookAngleY;
+	public float turnSmoothing;
 
-	[SerializeField]
-	private Vector3 p1CameraPos = new Vector3(-0.75f, 5.82f, -6.01f);
-	[SerializeField]
-	private Vector3 p1CameraRot = new Vector3(49.04f, 4.72f, 0);
+	public float xAngleMax = 75f;
+    public float xAngleMin = 45f;
+	public float lookAngleX;
 
-	[SerializeField]
-	private Vector3 p2CameraPos = new Vector3(0.75f, 5.82f, 6.01f);
-	[SerializeField]
-	private Vector3 p2CameraRot = new Vector3(49.04f, 184.72f, 0);
+	public Transform pivotTransform;
+	private Vector3 pivotEulers;
 
-	private Camera rotateCamera;
+	private InputManager inputManager;
+	private Quaternion newRotY;
+	private Quaternion newRotX;
+
+	private bool rotate = false;
 
 	void Start() {
-		rotateCamera = GetComponent<Camera>();
+		pivotEulers = pivotTransform.rotation.eulerAngles;
 		EnableInput();
+		inputManager = InputManager.Instance;
 	}
 
 	public void EnableInput() {
@@ -41,50 +41,35 @@ public class RotateCamera : MonoBehaviour, IInputReceiver {
 		InputManager.InputEvent -= OnInputEvent;
 	}
 
+	protected void Update() {
+		if (!rotate) return;
+		lookAngleY += inputManager.MouseAxis.x * horizAngleMove;
+		newRotY = Quaternion.Euler(0f,lookAngleY,0f);
+
+		lookAngleX += inputManager.MouseAxis.y * vertAngleMove;
+		lookAngleX = Mathf.Clamp(lookAngleX, -xAngleMin, xAngleMax);
+		newRotX = Quaternion.Euler(lookAngleX, pivotEulers.y, pivotEulers.z);
+
+		if (turnSmoothing > 0) {
+			pivotTransform.localRotation = Quaternion.Slerp(pivotTransform.localRotation, newRotX, turnSmoothing * Time.deltaTime);
+			transform.localRotation = Quaternion.Slerp(transform.localRotation, newRotY, turnSmoothing * Time.deltaTime);
+		} else {
+			transform.localRotation = newRotY;
+			pivotTransform.localRotation = newRotX;
+		}
+	}
+
 	public void OnInputEvent(InputActionType action) {
 		switch (action) {
-			case InputActionType.ROTATE_UP:
-				//RotateVertical(true);
-				break;
-			case InputActionType.ROTATE_DOWN:
-				//RotateVertical(false);
-				break;
-			case InputActionType.ROTATE_LEFT:
-				RotateHorizontal(true, horizAngleMove);
-				break;
-			case InputActionType.ROTATE_RIGHT:
-				RotateHorizontal(false, horizAngleMove);
-				break;
+			case InputActionType.ROTATE:
+			rotate = true;
+			break;
+
+			case InputActionType.STOP_ROTATE:
+			rotate = false;
+			
+			break;
 		}
 	}
 
-	private void RotateHorizontal(bool left, float yAngle) {
-		float dir = 1;
-		if (! left) dir = -1;
-		
-		transform.RotateAround(target.position, Vector3.up, (yAngle * dir));
-	}
-
-	private void RotateVertical(bool up, float xAngle) {
-		float dir = 1;
-		if (! up) dir = -1;
-
-		transform.RotateAround(target.position, transform.TransformDirection(Vector3.right), xAngle * dir);
-	}
-
-	public void SwitchCamera(PlayerType playerType) {
-		switch (playerType) {
-			case PlayerType.P1:
-				SetCameraPosRot(p1CameraPos, p1CameraRot);
-				break;
-			case PlayerType.P2:
-				SetCameraPosRot(p2CameraPos, p2CameraRot);
-				break;
-		}
-	}
-
-	private void SetCameraPosRot(Vector3 pos, Vector3 rot) {
-		rotateCamera.transform.position = pos;
-		rotateCamera.transform.eulerAngles = rot;
-	}
 }

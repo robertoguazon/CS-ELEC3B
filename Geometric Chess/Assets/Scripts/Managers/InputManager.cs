@@ -8,10 +8,8 @@ public enum InputActionType {
 	CANCEL_PIECE = 2,
 	ZOOM_IN = 3,
 	ZOOM_OUT = 4,
-	ROTATE_UP = 5,
-	ROTATE_DOWN = 6,
-	ROTATE_LEFT = 7,
-	ROTATE_RIGHT = 8,
+	ROTATE = 5,
+	STOP_ROTATE = 6,
 }
 
 public class InputManager : Singleton<InputManager> {
@@ -23,11 +21,21 @@ public class InputManager : Singleton<InputManager> {
 	private Node currentNode;
 	private GCPlayer currentPlayer;
 
+	public Vector2 mouseAxis;
+
+	public Vector2 MouseAxis {
+		get {return mouseAxis;}
+	}
+
 	void Awake() {
 		_destroyOnLoad = destroyOnLoad;
+		mouseAxis = new Vector2(0,0);
 	}
 
 	void Update() {
+		mouseAxis.x = Input.GetAxis("Mouse X");
+		mouseAxis.y = Input.GetAxis("Mouse Y");
+
 		if (InputEvent == null) return;
 
 		if (!GameManager.Instance.IsReady) return;
@@ -57,20 +65,10 @@ public class InputManager : Singleton<InputManager> {
 			InputEvent(InputActionType.ZOOM_OUT);
 		}
 
-		if (Input.GetMouseButton(2)) {
-			float mouseX = Input.GetAxis("Mouse X");
-			if (mouseX > 0) {
-				InputEvent(InputActionType.ROTATE_RIGHT);
-			} else if (mouseX < 0) {
-				InputEvent(InputActionType.ROTATE_LEFT);
-			}
-
-			float mouseY = Input.GetAxis("Mouse Y");
-			if (mouseY > 0) {
-				InputEvent(InputActionType.ROTATE_UP);
-			} else if (mouseY < 0) {
-				InputEvent(InputActionType.ROTATE_DOWN);
-			}
+		if (Input.GetMouseButtonDown(2)) {
+			InputEvent(InputActionType.ROTATE);
+		} else if (Input.GetMouseButtonUp(2)) {
+			InputEvent(InputActionType.STOP_ROTATE);
 		}
 	}
 
