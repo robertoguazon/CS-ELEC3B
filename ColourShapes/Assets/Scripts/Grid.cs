@@ -85,47 +85,162 @@ public class Grid {
 	}
 
 	void DrawLines(int[,] points, int player) {
+
+		//create a new gameobject to add a linerenderer component to
 		GameObject checker = new GameObject("lines");
+
+		//create the line renderer to the created game object
 		LineRenderer lr = checker.AddComponent<LineRenderer>();
+
+		//set the material of the line renderer
+		//remember to add the material used in edit->project settings->graphics->always included shaders
 		lr.material = new Material(Shader.Find("Sprites/Default"));
 
+		//default green color when no player parameter matched
 		Color color = Color.green; //default
 
+		//set to the following players' color
 		if (player == 1) {
 			color = new Color(0.5f,0,0);
 		} else {
 			color = new Color(0,0,0.5f);
 		}
 
+		//set the start and end of gradient of line renderer to the color
 		lr.startColor = color;
 		lr.endColor = color;
 
+		//remeber to make a sorting layer named GUI
 		lr.sortingLayerName = "GUI";
+
+		//set the start and end width
 		lr.startWidth = 0.1f;
 		lr.endWidth = 0.1f;
 
+		//get the length of the 1st dimension of the points array
 		int length = points.GetLength(0);
-		lr.numPositions = length + 1;
 
-		int halfLength = length / 2;
-		int lCounter = 0;
-		for (int i = 0; i < halfLength; i++) {
-			AddToLineRenderer(lr, lCounter, points[i,0], points[i,1]);
-			lCounter++;
-		}
+		//set the number of points (corners) including the first(+1)to connect the first and last
+		lr.numPositions = 8 + 1;
 
-		for (int i = length - 1; i >= halfLength; i--) {
-			Debug.Log(i);
-			AddToLineRenderer(lr, lCounter, points[i,0], points[i,1]);
-			lCounter++;
-		}
-		AddToLineRenderer(lr, lCounter, points[0,0], points[0,1]);
-		lCounter++;
+		//index will be used for placing points on the linerenderer for sorting purposes
+		int index = 0;
+
+		//draw on corners of top chip
+		index = AddToLineRenderer(lr,index,points[0,0],points[0,1],2,2,false);
+
+		//draw on corners of left chip
+		index = AddToLineRenderer(lr,index,points[1,0],points[1,1],2,3,false);
+
+		//draw on corners of bottom chip
+		index = AddToLineRenderer(lr,index,points[3,0],points[3,1],2,4,false);
+
+		//draw on corners of right chip
+		index = AddToLineRenderer(lr,index,points[2,0],points[2,1],2,1,false);
+
+		//connect to last
+		index = AddToLineRenderer(lr, index,points[0,0],points[0,1],2);
 	}
 
-	void AddToLineRenderer(LineRenderer lr, int index, int row, int col) {
+	//add a point to linerenderer based on a certain corner of the chip
+	//at - where to put the point, what corner?
+	int AddToLineRenderer(LineRenderer lr, int index, int row, int col, int at) {
+
+		//get the gameobject of the chip base on row,col
 		GameObject curr = GameManagerScript.Instance.chips[row * cols + col];
-		lr.SetPosition(index, curr.transform.position);
+
+		//get the size of the sprite used
+		Vector3 chipSize = curr.GetComponent<SpriteRenderer>().sprite.bounds.size;
+
+		
+		//adjust size depending whether on 9x9 or 15x15 since the corners are bigger on 15x15
+		if (GameManagerScript.Instance.gridSize == 9) {
+			chipSize.x -= 0.25f;
+			chipSize.y -= 0.25f;
+		} else {
+			chipSize.x -= 0.25f;
+			chipSize.y -= 0.25f;
+		}
+		
+
+		//halfSize of the chip, used for computing the corners
+		float xHalf = chipSize.x / 2;
+		float yHalf = chipSize.y / 2;
+
+		//Find the corners or the points so it will be easy to draw lines later
+		Vector3 bottomLeft, bottomRight, topRight, topLeft;
+		bottomLeft = bottomRight = topRight = topLeft = curr.transform.position;
+		
+		//computation of corners for a certain chip
+		topRight.y = topLeft.y += yHalf;
+		bottomLeft.x = topLeft.x -= xHalf;
+
+		bottomRight.y = bottomLeft.y -= yHalf;
+		topRight.x = bottomRight.x += xHalf; 
+
+		//place point at position -> used by line renderer to draw lines based on points
+		switch (at) {
+			case 1: //bottomRight corner
+				lr.SetPosition(index++, bottomRight);
+			break; 
+			case 2: //topRight corner
+				lr.SetPosition(index++, topRight);
+			break;
+			case 3: //topLeft corner
+				lr.SetPosition(index++, topLeft);
+			break;
+			case 4: //bottomLeft corner
+				lr.SetPosition(index++, bottomLeft);
+			break;
+		}
+
+		//return the index for keeping track of the lineRenderer's position so that it does not exceed size;
+		return index;
+	}
+
+	//startAt - what corner to start
+	//clockwise - from the start corner add point clockwise or counter clockwise
+	//number -> number of corners that will be used
+	int AddToLineRenderer(LineRenderer lr, int index, int row, int col, int number, int startAt, bool clockwise) {
+
+		//use for placing points to linerenderer 
+		int corner = 0;
+
+		//used for clockwise or not
+		int add;
+		if (clockwise) {
+			add = -1;
+		} else {
+			add = 1;
+		}
+
+		switch (startAt) {
+			case 1: //bottomRight corner first; possible: 1234, 1432
+				corner = 1;
+			break;
+			case 2: //topRight corner first; possible: 2341, 2143
+				corner = 2;
+			break;
+			case 3: //topLeft corner first; possible: 3412, 3214
+				corner = 3;
+			break;
+			case 4: //bottomLeft corner first; possible: 4123, 4321
+				corner = 4;
+			break;
+		}
+
+		//put points
+		for (int i = 0; i < number; i++) {
+			index = AddToLineRenderer(lr,index,row,col,corner);
+			Debug.Log(corner);
+			corner += add;
+
+			//if exceeds then loop
+			if (corner < 1) corner = 4;
+			if (corner > 4) corner = 1;
+		}
+
+		return index;
 	}
 
 	/*
@@ -136,17 +251,23 @@ public class Grid {
 		if (row - 1 < 0 || row + 1 >= rows) return false;
 		if (grid[row,col] != player) return false;
 
-		int [,] points = new int[4,2];
+		//array for storing the cell(row,col) of the chips on the corner
+		int [,] points = new int[5,2];
 		int pCounter = 0;
 
+		//check if has diamond
 		for (int r = -1; r <= 1; r++) {
 			for (int c = -1; c <= 1; c++) {
 				if (Mathf.Abs(r) == Mathf.Abs(c)) continue;
 				
 				int checkRow = row + r;
 				int checkCol = col + c;
+
+				//return and skip checking all other sides of the center chip if 1 side failed
 				if (grid[checkRow, checkCol] != player) return false;
 				else {
+
+					//if match with player chip then add to possible points 
 					points[pCounter,0] = checkRow;
 					points[pCounter,1] = checkCol;
 					pCounter++;
@@ -166,6 +287,8 @@ public class Grid {
 		}
 		grid[row,col] = 0;
 
+
+		//draw lines and pass the cells of the chip
 		DrawLines(points,player);
 		//if not did not return false
 		return true;

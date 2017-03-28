@@ -18,6 +18,11 @@ public class PlayerController : InputReceiver {
 	private Vector3 moveVector;
 	private Transform mainCamTrans;
 
+	public float turnSmoothTime = 0.2f;
+	private float turnSmoothVelocity;
+	[Range(0,1)]
+	public float airControlPercent;
+
 	// Use this for initialization
 	void Start () {
 		rb = GetComponent<Rigidbody>();
@@ -141,10 +146,23 @@ public class PlayerController : InputReceiver {
 	void FaceOnMovement() {
 		if (moveVector.x == 0 && moveVector.z == 0) return;
 		Vector3 newFaceAngle = RotateWithView(moveVector);
-		transform.rotation = Quaternion.LookRotation(newFaceAngle);
+		float targetRotation = Mathf.Atan2 (moveVector.x, moveVector.z) * Mathf.Rad2Deg + mainCamTrans.eulerAngles.y;
+		transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref turnSmoothVelocity, GetModifiedSmoothTime(turnSmoothTime));
 	}
 	
 	bool IsGrounded() {
 		return Physics.Raycast(transform.position, -Vector3.up, distToGround + 0.1f, groundsMask);
+	}
+
+	float GetModifiedSmoothTime(float smoothTime) {
+		if (IsGrounded()) {
+			return smoothTime;
+		}
+
+		if (airControlPercent == 0) {
+			return float.MaxValue;
+		}
+
+		return smoothTime / airControlPercent;
 	}
 }
