@@ -157,9 +157,9 @@ public class Grid {
 		if (GameManagerScript.Instance.gridSize == 9) {
 			chipSize.x -= 0.25f;
 			chipSize.y -= 0.25f;
-		} else {
-			chipSize.x -= 0.25f;
-			chipSize.y -= 0.25f;
+		} else if (GameManagerScript.Instance.gridSize == 15) {
+			chipSize.x -= 0.45f;
+			chipSize.y -= 0.45f;
 		}
 		
 

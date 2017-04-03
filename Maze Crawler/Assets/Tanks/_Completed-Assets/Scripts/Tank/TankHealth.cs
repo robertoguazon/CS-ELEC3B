@@ -55,6 +55,7 @@ namespace Complete
             if (m_CurrentHealth <= 0f && !m_Dead)
             {
                 OnDeath ();
+
             }
         }
 
@@ -88,6 +89,7 @@ namespace Complete
             gameObject.SetActive (false);
 
             Destroy(gameObject);
+            MyGameManager.Instance.CheckWin();
         }
     }
 }
