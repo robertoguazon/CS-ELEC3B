@@ -33,6 +33,7 @@ public class MyGameManager : Singleton<MyGameManager>  {
 	}
 
 	void Awake() {
+		PlayerPrefs.DeleteKey(GameOverManager.GAME_OVER);
 		spartyClones = new List<Sparty>();
 		
 		int children = spartyContainer.transform.childCount;
@@ -54,7 +55,9 @@ public class MyGameManager : Singleton<MyGameManager>  {
 
 	public void RemoveSparty(Sparty sparty) {
 		spartyClones.Remove(sparty);
-		tank.GetComponent<TargetLock>().ReTarget();
+		if (tank != null) {
+			tank.GetComponent<TargetLock>().ReTarget();
+		}
 		//CheckWin();
 	}
 
@@ -64,19 +67,26 @@ public class MyGameManager : Singleton<MyGameManager>  {
 
 	public bool CheckWin() {
 		if (SpartyAreDead) {
-			StartCoroutine(IECheckWin());
 			return true;
 		}
 
 		return false;
 	}
 
-	IEnumerator IECheckWin() {
-		yield return new WaitForSeconds(winDelaySeconds);
-		LoadScene(nextLevelName);
+	public void LoadNextLevel() {
+		LoadScene(nextLevelName,winDelaySeconds);
 	}
 
 	public void LoadScene(string levelName) {
+		StartCoroutine(IELoadScene(levelName, 0));
+	}
+
+	public void LoadScene(string levelName, float waitFor) {
+		StartCoroutine(IELoadScene(levelName, waitFor));
+	}
+
+	IEnumerator IELoadScene(string levelName, float waitFor) {
+		yield return new WaitForSeconds(waitFor);
 		SceneManager.LoadScene(levelName);
 	}
 

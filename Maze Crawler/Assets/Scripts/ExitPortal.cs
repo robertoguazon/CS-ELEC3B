@@ -21,6 +21,8 @@ public class ExitPortal : MonoBehaviour {
 		if (other.tag == "Tank") {
 			if (MyGameManager.Instance.CheckWin()) {
 				text.color = Color.green;
+				PlayerPrefs.SetInt(GameOverManager.GAME_OVER, GameOverManager.WIN);
+				MyGameManager.Instance.LoadNextLevel();
 			} else {
 				HUDManager.Instance.DisplayTextFor("Kill all the enemies first",2f);
 			}

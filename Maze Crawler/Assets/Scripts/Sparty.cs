@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Complete;
 
 public class Sparty : MonoBehaviour {
@@ -21,8 +22,10 @@ public class Sparty : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (target == null) return;
 		if (Vector3.Distance(transform.position, target.transform.position) <= targetRadius) 
 			FollowTarget();
+		
 	}
 
 	void FollowTarget() {
@@ -43,10 +46,8 @@ public class Sparty : MonoBehaviour {
 	}
 
 	void OnDestroy() {
-		if (MyGameManager.Instance != null) {
-			MyGameManager.Instance.RemoveSparty(this);
-		}
-		Debug.Log("Dying");
+		if (MyGameManager.Instance == null) return;
+		MyGameManager.Instance.RemoveSparty(this);
 	}
 
 	void OnCollisionStay(Collision collision) {
