@@ -14,9 +14,5 @@ public class Tank : MonoBehaviour {
 		
 	}
 
-	void OnDestroy() {
-		if (MyGameManager.Instance == null) return;
-		PlayerPrefs.SetInt(GameOverManager.GAME_OVER, GameOverManager.LOSE);
-		MyGameManager.Instance.LoadScene("GameOver", 2f);
-	}
+
 }

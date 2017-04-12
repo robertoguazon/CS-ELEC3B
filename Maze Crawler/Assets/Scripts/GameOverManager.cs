@@ -19,7 +19,7 @@ public class GameOverManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		int gameOver = PlayerPrefs.GetInt(GAME_OVER);
-		Debug.Log("GameOver: " + gameOver);
+		Debug.Log(GAME_OVER + ": " + gameOver);
 		if (gameOver == WIN) {
 			win = true;
 			winloseText.text = "WIN";

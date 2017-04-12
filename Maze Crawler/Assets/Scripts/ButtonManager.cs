@@ -11,4 +11,12 @@ public class ButtonManager : MonoBehaviour {
 	public void Quit() {
 		Application.Quit();
 	}
+
+	public void Show(GameObject o) {
+		o.SetActive(true);
+	}
+
+	public void Close(GameObject o) {
+		o.SetActive(false);
+	}
 }
