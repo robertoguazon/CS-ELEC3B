@@ -28,6 +28,16 @@ public abstract class Movement : ScriptableObject {
 		BoundComputations += ClearPossibles;
 	}
 
+	void DisableCalculation() {
+		BoundComputations = null;
+	}
+
+	void OnDisable() {
+		DisableCalculation();
+	}
+
+	public virtual void ComputeBound() {}
+
 	public bool IsTurn() {
 		if (player == GameManager.Instance.CurrentPlayer) {
 			return true;

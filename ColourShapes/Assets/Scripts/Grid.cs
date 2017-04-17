@@ -81,6 +81,12 @@ public class Grid {
 		UIManagerScript.Instance.player1Count = player1C;
 		UIManagerScript.Instance.player2Count = player2C;
 
+		if (player1C > player2C) {
+			GameManagerScript.AddScore(GameManagerScript.PLAYER_RED);
+		} else if (player1C < player2C) {
+			GameManagerScript.AddScore(GameManagerScript.PLAYER_BLUE);
+		}
+
 		return (player1C > player2C) ? 1 : (player1C < player2C) ? 2 : 0;
 	}
 

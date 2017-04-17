@@ -14,7 +14,7 @@ public class QueenMovement : Movement, IPieceMovement {
 		BoundComputations += bishop.ComputeBound;
 	}
 
-	public void ComputeBound() {
+	public override void ComputeBound() {
 		//do nothing
 	}
 

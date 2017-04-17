@@ -84,6 +84,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\ButtonManager.cs" />
     <Compile Include="Assets\Scripts\ChipScript.cs" />
     <Compile Include="Assets\Scripts\FillButtonScript.cs" />
     <Compile Include="Assets\Scripts\GameManagerScript.cs" />
@@ -92,7 +93,9 @@
     <Compile Include="Assets\Scripts\PassButtonScript.cs" />
     <Compile Include="Assets\Scripts\PlayButtonScript.cs" />
     <Compile Include="Assets\Scripts\QuitButtonScript.cs" />
+    <Compile Include="Assets\Scripts\SliderValue.cs" />
     <Compile Include="Assets\Scripts\UIManagerScript.cs" />
+    <Compile Include="Assets\Scripts\WinnerManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

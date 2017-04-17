@@ -99,6 +99,7 @@
     <Compile Include="Assets\Scripts\Grid\Grid.cs" />
     <Compile Include="Assets\Scripts\Grid\GridCoords.cs" />
     <Compile Include="Assets\Scripts\Grid\Node.cs" />
+    <Compile Include="Assets\Scripts\Managers\ButtonManager.cs" />
     <Compile Include="Assets\Scripts\Managers\GameManager.cs" />
     <Compile Include="Assets\Scripts\Managers\InputManager.cs" />
     <Compile Include="Assets\Scripts\Pieces\BishopMovement.cs" />
@@ -115,12 +116,15 @@
     <Compile Include="Assets\Scripts\Pieces\QueenMovement.cs" />
     <Compile Include="Assets\Scripts\Pieces\RookMovement.cs" />
     <Compile Include="Assets\Scripts\Rules.cs" />
+    <Compile Include="Assets\Scripts\SliderValue.cs" />
+    <Compile Include="Assets\Scripts\ToggleValue.cs" />
     <Compile Include="Assets\Scripts\Utils\Converter.cs" />
     <Compile Include="Assets\Scripts\Utils\Creator.cs" />
     <Compile Include="Assets\Scripts\Utils\FileHelper.cs" />
     <Compile Include="Assets\Scripts\Utils\Finder.cs" />
     <Compile Include="Assets\Scripts\Utils\Scaler.cs" />
     <Compile Include="Assets\Scripts\Utils\SimpleFPSCounter.cs" />
+    <Compile Include="Assets\Scripts\WinManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

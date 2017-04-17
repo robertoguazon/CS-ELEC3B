@@ -69,6 +69,10 @@ public class GCPlayer : IClicker, IInputReceiver {
 		InputManager.InputEvent -= OnInputEvent;
 	}
 
+	void OnDisable() {
+		DisableInput();
+	}
+
 	public void OnInputEvent(InputActionType action) {
 		switch (action) {
 			case InputActionType.GRAB_PIECE:

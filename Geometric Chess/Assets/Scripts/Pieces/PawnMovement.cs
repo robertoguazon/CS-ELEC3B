@@ -21,7 +21,7 @@ public class PawnMovement : Movement, IPieceMovement {
 		grid = GameManager.Instance.Grid;
 	}
 
-	public void ComputeBound() {
+	public override void ComputeBound() {
 		Node currNode = piece.Node;
 		int origRow = currNode.row;
 		int origCol = currNode.col;

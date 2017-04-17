@@ -16,7 +16,7 @@ public class ZoomCamera : MonoBehaviour, IInputReceiver {
 
 	// Use this for initialization
 	void Start() {
-		zoomCamera = GetComponent<Camera>();
+		zoomCamera = Camera.main;
 		fieldOfView = zoomCamera.fieldOfView;
 		EnableInput();
 	}
@@ -27,6 +27,10 @@ public class ZoomCamera : MonoBehaviour, IInputReceiver {
 
 	public void DisableInput() {
 		InputManager.InputEvent -= OnInputEvent;
+	}
+
+	void OnDisable() {
+		DisableInput();
 	}
 
 	public void OnInputEvent(InputActionType action) {

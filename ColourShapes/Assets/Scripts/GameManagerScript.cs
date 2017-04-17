@@ -3,11 +3,20 @@
 */
 
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using System.Collections;
 
 public class GameManagerScript : MonoBehaviour {
 
 	public static GameManagerScript Instance;
+
+	public Text redGameScore;
+	public Text blueGameScore;
+
+	public GameObject replayButton;
+	public GameObject quitButton;
+	public GameObject winnerCanvas;
 
 	public GameObject chip;
 	public GameObject[] chips;
@@ -29,7 +38,14 @@ public class GameManagerScript : MonoBehaviour {
 	private bool player1FirstTurn = true;
 	private bool player2FirstTurn = true;
 
+	public static GameManagerScript instance;
+
+	public GameManagerScript() {
+		instance = this;
+	}
+
 	void Awake(){
+		LoadGameScores();
 		GameOverEvent += onGameOver;
 	}
 
@@ -39,6 +55,11 @@ public class GameManagerScript : MonoBehaviour {
 			Instance = this;
 		//instaWin ();
 
+	}
+
+	void LoadGameScores() {
+		redGameScore.text = PlayerPrefs.GetInt(GameManagerScript.PLAYER_RED,0).ToString();
+		blueGameScore.text = PlayerPrefs.GetInt(GameManagerScript.PLAYER_BLUE,0).ToString();
 	}
 
 	void Update () {
@@ -181,5 +202,43 @@ public class GameManagerScript : MonoBehaviour {
 		numOfChips = gridSize  *gridSize;
 		UIManagerScript.Instance.DisablePlayerStuckMenu ();
 		isPaused = false;
+	}
+
+	public const string PLAYER_RED = "player_red";
+	public const string PLAYER_BLUE = "player_blue";
+	public const string GAME_MAX_SCORE = "game_max_score";
+	public const string GAME_MAX_GAMES = "game_max_games";
+	public const string GAME_CURRENT_GAMES = "game_current_games";
+
+	public static void AddGame() {
+		int maxGames = PlayerPrefs.GetInt(GAME_MAX_GAMES,0);
+		int currentGames = PlayerPrefs.GetInt(GAME_CURRENT_GAMES,0);
+		PlayerPrefs.SetInt(GAME_CURRENT_GAMES,currentGames + 1);
+
+		if (currentGames >= maxGames) {
+			WinGame();
+		}
+	}
+
+	public static void AddScore(string playerString) {
+		int newScore = PlayerPrefs.GetInt(playerString,0)+ 1;
+		PlayerPrefs.SetInt(playerString,newScore);
+		int maxScore = PlayerPrefs.GetInt(GAME_MAX_SCORE,0);
+		if (newScore == maxScore) {
+			WinGame();
+		}
+	}
+
+	public static void ResetPlayersScore() {
+		PlayerPrefs.DeleteKey(PLAYER_RED);
+		PlayerPrefs.DeleteKey(PLAYER_BLUE);
+	}
+
+	static void WinGame() {
+		if (instance != null) {
+			instance.winnerCanvas.SetActive(true);
+			instance.replayButton.SetActive(false);
+			instance.quitButton.SetActive(false);
+		}
 	}
 }

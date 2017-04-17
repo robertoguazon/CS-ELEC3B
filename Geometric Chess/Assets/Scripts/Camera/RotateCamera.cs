@@ -41,6 +41,10 @@ public class RotateCamera : MonoBehaviour, IInputReceiver {
 		InputManager.InputEvent -= OnInputEvent;
 	}
 
+	void OnDisable() {
+		DisableInput();
+	}
+
 	protected void Update() {
 		if (!rotate) return;
 		lookAngleY += inputManager.MouseAxis.x * horizAngleMove;

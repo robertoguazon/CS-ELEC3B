@@ -32,6 +32,10 @@ public class InputManager : Singleton<InputManager> {
 		mouseAxis = new Vector2(0,0);
 	}
 
+	void OnDisable() {
+		InputEvent = null;
+	}
+
 	void Update() {
 		mouseAxis.x = Input.GetAxis("Mouse X");
 		mouseAxis.y = Input.GetAxis("Mouse Y");

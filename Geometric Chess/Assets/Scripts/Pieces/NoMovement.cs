@@ -8,7 +8,7 @@ public class NoMovement :  Movement, IPieceMovement {
 		BoundComputations += ComputeBound;
 	}
 
-	public void ComputeBound() {
+	public override void ComputeBound() {
 		//do nothing
 	}
 
