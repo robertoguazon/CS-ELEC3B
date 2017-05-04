@@ -87,7 +87,61 @@ public class Grid {
 			GameManagerScript.AddScore(GameManagerScript.PLAYER_BLUE);
 		}
 
+		GameManagerScript.AddGame();
+
 		return (player1C > player2C) ? 1 : (player1C < player2C) ? 2 : 0;
+	}
+
+	 Mesh CreateMesh(float width, float height) {
+
+		if (GameManagerScript.Instance.gridSize == 15) {
+			width -= 0.5f;
+			height -= 0.5f;
+		}
+	
+
+		Mesh m = new Mesh();
+		m.name = "ScriptedMesh";
+		m.vertices = new Vector3[] {
+			new Vector3(0, -height, 0.01f),
+			new Vector3(width, 0, 0.01f),
+			new Vector3(0, height, 0.01f),
+			new Vector3(-width, 0, 0.01f)
+		};
+		m.uv = new Vector2[] {
+			new Vector2 (0, 0),
+			new Vector2 (0.5f, 0),
+			new Vector2(0, 0.5f),
+			new Vector2 (-0.5f, 0)
+		};
+		m.triangles = new int[] {0,2,3,0,1,2};
+		m.RecalculateNormals();
+			
+		return m;
+	}
+
+	void DrawMesh(Vector3 position, int player) {
+		Color color = Color.green; //default
+
+		//set to the following players' color
+		if (player == 1) {
+			color = new Color(0.5f,0,0);
+		} else {
+			color = new Color(0,0,0.5f);
+		}
+
+		GameObject plane = new GameObject("Plane");
+		MeshFilter meshFilter = (MeshFilter)plane.AddComponent(typeof(MeshFilter));
+		meshFilter.mesh = CreateMesh(1.5f, 1.5f);
+		MeshRenderer renderer = plane.AddComponent(typeof(MeshRenderer)) as MeshRenderer;
+		renderer.sortingLayerName = "GUI";
+		renderer.material.shader = Shader.Find ("Sprites/Default");
+		Texture2D tex = new Texture2D(1, 1);
+		tex.SetPixel(0, 0, color);
+		tex.Apply();
+		renderer.material.mainTexture = tex;
+		renderer.material.color = color;
+		plane.transform.position = position;
 	}
 
 	void DrawLines(int[,] points, int player) {
@@ -156,8 +210,7 @@ public class Grid {
 		GameObject curr = GameManagerScript.Instance.chips[row * cols + col];
 
 		//get the size of the sprite used
-		Vector3 chipSize = curr.GetComponent<SpriteRenderer>().sprite.bounds.size;
-
+		Vector3 chipSize = curr.GetComponent<SpriteRenderer>().sprite.bounds.size;	
 		
 		//adjust size depending whether on 9x9 or 15x15 since the corners are bigger on 15x15
 		if (GameManagerScript.Instance.gridSize == 9) {
@@ -295,7 +348,9 @@ public class Grid {
 
 
 		//draw lines and pass the cells of the chip
-		DrawLines(points,player);
+		//DrawLines(points,player);
+		GameObject curr = GameManagerScript.Instance.chips[row * cols + col];
+		DrawMesh(curr.transform.position,player);
 		//if not did not return false
 		return true;
 	}

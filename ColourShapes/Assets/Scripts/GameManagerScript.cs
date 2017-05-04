@@ -212,8 +212,8 @@ public class GameManagerScript : MonoBehaviour {
 
 	public static void AddGame() {
 		int maxGames = PlayerPrefs.GetInt(GAME_MAX_GAMES,0);
-		int currentGames = PlayerPrefs.GetInt(GAME_CURRENT_GAMES,0);
-		PlayerPrefs.SetInt(GAME_CURRENT_GAMES,currentGames + 1);
+		int currentGames = PlayerPrefs.GetInt(GAME_CURRENT_GAMES,0) + 1;
+		PlayerPrefs.SetInt(GAME_CURRENT_GAMES,currentGames);
 
 		if (currentGames >= maxGames) {
 			WinGame();
@@ -232,6 +232,7 @@ public class GameManagerScript : MonoBehaviour {
 	public static void ResetPlayersScore() {
 		PlayerPrefs.DeleteKey(PLAYER_RED);
 		PlayerPrefs.DeleteKey(PLAYER_BLUE);
+		PlayerPrefs.DeleteKey(GAME_CURRENT_GAMES);
 	}
 
 	static void WinGame() {

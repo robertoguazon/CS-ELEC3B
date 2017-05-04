@@ -13,6 +13,7 @@ public enum GameOverType {
 	CHECKMATE,
 	STALEMATE,
 	SURRENDER,
+	OUT_OF_TIME,
 }
 
 public class GameState {
@@ -63,6 +64,11 @@ public class GameState {
 	public void Checkmate() {
 		state = GameStateType.GAME_OVER;
 		gameOverType = GameOverType.CHECKMATE;
+	}
+
+	public void OutOfTime() {
+		state = GameStateType.GAME_OVER;
+		gameOverType = GameOverType.OUT_OF_TIME;
 	}
 
 	public void Stalemate() {

@@ -116,7 +116,8 @@
     <Compile Include="Assets\Scripts\Pieces\QueenMovement.cs" />
     <Compile Include="Assets\Scripts\Pieces\RookMovement.cs" />
     <Compile Include="Assets\Scripts\Rules.cs" />
-    <Compile Include="Assets\Scripts\SliderValue.cs" />
+    <Compile Include="Assets\Scripts\SliderValueScore.cs" />
+    <Compile Include="Assets\Scripts\SliderValueTimer.cs" />
     <Compile Include="Assets\Scripts\ToggleValue.cs" />
     <Compile Include="Assets\Scripts\Utils\Converter.cs" />
     <Compile Include="Assets\Scripts\Utils\Creator.cs" />

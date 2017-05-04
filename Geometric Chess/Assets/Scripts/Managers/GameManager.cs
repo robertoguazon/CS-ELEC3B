@@ -48,6 +48,17 @@ public class GameManager : Singleton<GameManager> {
 
 	private GameState gameState;
 
+	//EXPERIMENT_TIMER
+	public const string PLAYER_TIMER = "PLAYER_TIMER";
+	public const int DEFAULT_PLAYER_TIMER_MIN = 10; //minutes
+	public Text whiteTimerText;
+	public Text blackTimerText;
+
+	private bool whiteTurn;
+	private float whiteTimer;
+	private float blackTimer;
+	//END of EXPERIMENT_TIMER
+
 	private bool ready;
 
 	public GCPlayer PlayerOponent {
@@ -116,6 +127,18 @@ public class GameManager : Singleton<GameManager> {
 		_destroyOnLoad = destroyOnLoad;
 		gameState = new GameState();
 		LoadScores();
+
+		//EXPERIMENT_TIMER
+		SetTimers();
+	}
+
+	//EXPERIMENT_TIMER
+	void SetTimers() {
+		float timer = PlayerPrefs.GetInt(PLAYER_TIMER, DEFAULT_PLAYER_TIMER_MIN); //get in minutes
+		timer *= 60f; //convert to seconds
+		whiteTimer = blackTimer = timer;
+		UpdateWhiteTimer();
+		UpdateBlackTimer();
 	}
 
 	// Use this for initialization
@@ -150,16 +173,60 @@ public class GameManager : Singleton<GameManager> {
 
 #if UNITY_EDITOR
 		if (Input.GetKeyDown(KeyCode.Z)) {
+			GameManager.Instance.GameState.Checkmate();
 			GameOver(p1,GameOverType.CHECKMATE); //TODO delete
 		} else if (Input.GetKeyDown(KeyCode.X)) {
+			GameManager.Instance.GameState.Checkmate();
 			GameOver(p2,GameOverType.CHECKMATE); //TODO delete
 		} else if (Input.GetKeyDown(KeyCode.C)) {
+			GameManager.Instance.GameState.Stalemate();
 			GameOver(p2,GameOverType.STALEMATE);
 		}
 #endif
 
 		if (!ready) return;
 		if (gameState.IsGameOver) return;
+
+
+		//EXPERIMENT_TIMER
+		if (whiteTurn) {
+			whiteTimer -= Time.deltaTime;
+			if (whiteTimer < 0 ) {
+				whiteTimer = 0;
+				GameManager.Instance.GameState.OutOfTime();
+				GameOver(p2, GameOverType.OUT_OF_TIME);
+			}
+			UpdateWhiteTimer();
+		} else {
+			blackTimer -= Time.deltaTime;
+			if (blackTimer < 0 ) {
+				blackTimer = 0;
+				GameManager.Instance.GameState.OutOfTime();
+				GameOver(p1, GameOverType.OUT_OF_TIME);
+			}
+			UpdateBlackTimer();
+		}
+	}
+
+	//EXPERIMENT_TIMER
+	void UpdateWhiteTimer() {
+		whiteTimerText.text = "WHITE\n" + GetChessTimeFormat(whiteTimer);
+	}
+
+	//EXPERIMENT_TIMER
+	void UpdateBlackTimer() {
+		blackTimerText.text = "BLACK\n" + GetChessTimeFormat(blackTimer);
+	}
+
+	//EXPERIMENT_TIMER
+	string GetChessTimeFormat(float timeInSeconds) {
+		int seconds = (int)(timeInSeconds % 60);
+		int minutes = (int)(timeInSeconds / 60);
+
+		int hours = (int)(minutes / 60);
+		minutes = (int)(minutes % 60);
+		string d2 = "D2";
+		return hours.ToString(d2) + ":" + minutes.ToString(d2) + ":" + seconds.ToString(d2);
 	}
 
 	public void SwitchPlayer() {
@@ -169,12 +236,15 @@ public class GameManager : Singleton<GameManager> {
 
 		if (currentPlayer == p2) {
 			currentPlayer = p1;
+			whiteTurn = true;
 			mainCamera.GetComponent<SwitchAngle>().SwitchCamera(PlayerType.P1);
 		} else if (currentPlayer == p1) {
 			currentPlayer = p2;
+			whiteTurn = false;
 			mainCamera.GetComponent<SwitchAngle>().SwitchCamera(PlayerType.P2);
 		} else {
 			currentPlayer = p1;
+			whiteTurn = true;
 		}
 
 		//IF checkmate
@@ -220,6 +290,15 @@ public class GameManager : Singleton<GameManager> {
 			case GameOverType.STALEMATE:
 				winnerText.text = "STALEMATE: It's a tie"; 
 			break;
+			case GameOverType.OUT_OF_TIME:
+				if (winner == p1) {
+					winnerText.text = "OUT OF TIME: WHITE wins";
+					AddScore(PLAYER_WHITE);
+				} else if (winner == p2) {
+					winnerText.text = "OUT OF TIME: BLACK wins";
+					AddScore(PLAYER_BLACK);
+				}
+				break;
 		}
 		continueButton.SetActive(true);
 	}
